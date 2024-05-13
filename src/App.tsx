@@ -1,26 +1,27 @@
-import React from 'react';
-import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
-import HomePage from './components/pages/HomePage';
-import SignIn from './components/pages/SignIn';
-import SignUp from './components/pages/SignUp';
-import ProductPage from './components/pages/ProductPage';
-import Cart from './components/pages/Cart';
-import styled from 'styled-components';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/pages/Home";
+import SignIn from "./components/pages/SignIn";
+import SignUp from "./components/pages/SignUp";
+import Product from "./components/pages/Product";
+import Cart from "./components/pages/Cart";
+import styled from "styled-components";
 
 const AppWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
+  /* background-color: #c7c7c7; */
 `;
 
 const App: React.FC = () => {
   return (
     <AppWrapper>
       <Routes>
-        <Route path='/' element={<HomePage />}></Route>
-        <Route path='/signin' element={<SignIn />}></Route>
-        <Route path='/signup' element={<SignUp />}></Route>
-        <Route path='/product-page/:id' element={<ProductPage />}></Route>
-        <Route path='/cart' element={<Cart />}></Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/signin" element={<SignIn />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/product-page/:id" element={<Product />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
       </Routes>
     </AppWrapper>
   );
