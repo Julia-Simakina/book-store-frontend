@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import like from "../../images/button_save.svg";
-import Button from "../Button";
-import Rating from "../CustomRating";
+import styled from 'styled-components';
+import like from '../../images/button_save.svg';
+import Button from '../Button';
+import StarRating from '../Rating';
 
 const StyledBookCard = styled.div`
-  color: ${(props) => props.color || "#0D1821"};
+  color: ${props => props.color || '#0D1821'};
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
@@ -49,16 +49,16 @@ type BookCardType = {
   author: string;
 };
 
-const BookCard: React.FC<BookCardType> = (props) => {
+const BookCard: React.FC<BookCardType> = props => {
   return (
     <StyledBookCard>
-      <button className="book-like-btn"></button>
-      <img src={props.src} alt="" />
-      <h3 className="book-title">{props.title}</h3>
-      <p className="book-author">{props.author}</p>
-      <Rating />
+      <button className='book-like-btn'></button>
+      <img src={props.src} alt='' />
+      <h3 className='book-title'>{props.title}</h3>
+      <p className='book-author'>{props.author}</p>
+      <StarRating />
       {/* <BasicRating /> */}
-      <Button width="305px" fontSize="20px">
+      <Button width='305px' fontSize='20px'>
         $23.00 USD
       </Button>
     </StyledBookCard>

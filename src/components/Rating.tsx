@@ -1,25 +1,40 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Rating from "@mui/material/Rating";
-import Typography from "@mui/material/Typography";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import StarIcon from './StarIcon';
 
-export default function BasicRating() {
-  const [value, setValue] = React.useState<number | null>(2);
+const StarRatingContainer = styled.div`
+  display: inline-block;
+`;
+
+const Star = styled.span<{ highlighted: boolean }>`
+  font-size: 2rem;
+  cursor: pointer;
+  color: ${props => (props.highlighted ? '#BFCC94' : 'lightgray')};
+`;
+
+const StarRating: React.FC = () => {
+  const [rating, setRating] = useState(0);
+
+  const handleStarClick = (selectedRating: number) => {
+    setRating(selectedRating);
+  };
 
   return (
-    <Box
-      sx={{
-        "& > legend": { mt: 2 },
-      }}
-    >
-      <Typography component="legend">Controlled</Typography>
-      <Rating
-        name="simple-controlled"
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-      />
-    </Box>
+    <StarRatingContainer>
+      {[...Array(5)].map((_, index) => {
+        const starValue = index + 1;
+        return (
+          <Star
+            key={index}
+            highlighted={rating >= starValue}
+            onClick={() => handleStarClick(starValue)}
+          >
+            {rating >= starValue ? <StarIcon fill='#BFCC94' /> : <StarIcon fill='none' />}
+          </Star>
+        );
+      })}
+    </StarRatingContainer>
   );
-}
+};
+
+export default StarRating;
