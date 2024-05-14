@@ -4,6 +4,31 @@ import { Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 import search from "../images/search.svg";
 
+const Header: React.FC = () => {
+  return (
+    <StyledHeader>
+      <Link to="/">
+        <Logo src={logo} />
+      </Link>
+      <Flex>
+        <CatalogLink href="#">Catalog</CatalogLink>
+        <InputContainer>
+          <SearchImg src={search} alt="Search icon" />
+          <Input type="text" placeholder="Search" />
+        </InputContainer>
+      </Flex>
+      <ButtonContainer>
+        <Link to="/signin">
+          <Button width={"110px"}>Log In</Button>
+        </Link>
+        <Link to="/signup">
+          <Button width={"110px"}>Sing Up</Button>
+        </Link>
+      </ButtonContainer>
+    </StyledHeader>
+  );
+};
+
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
@@ -69,30 +94,5 @@ const ButtonContainer = styled.div`
   gap: 10px;
   margin-left: 15px;
 `;
-
-const Header: React.FC = () => {
-  return (
-    <StyledHeader>
-      <Link to="/">
-        <Logo src={logo} />
-      </Link>
-      <Flex>
-        <CatalogLink href="#">Catalog</CatalogLink>
-        <InputContainer>
-          <SearchImg src={search} alt="Search icon" />
-          <Input type="text" placeholder="Search" />
-        </InputContainer>
-      </Flex>
-      <ButtonContainer>
-        <Button $primary width={"110px"}>
-          Log In
-        </Button>
-        <Button $primary width={"110px"}>
-          Sing Up
-        </Button>
-      </ButtonContainer>
-    </StyledHeader>
-  );
-};
 
 export default Header;

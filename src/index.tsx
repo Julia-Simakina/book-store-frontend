@@ -10,6 +10,7 @@ const Global = createGlobalStyle`
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  /* outline: 1px solid red; */
 }
 `;
 

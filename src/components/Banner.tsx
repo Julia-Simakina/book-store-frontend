@@ -48,9 +48,7 @@ const Banner: React.FC = () => {
       <TitleContainer>
         <Title>Build your library with us</Title>
         <SubTitle>Buy two books and get one for free</SubTitle>
-        <Button marginTop={"50px"} $primary>
-          Choose a book
-        </Button>
+        <Button marginTop={"50px"}>Choose a book</Button>
       </TitleContainer>
     </StyledBanner>
   );

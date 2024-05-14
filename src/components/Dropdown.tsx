@@ -32,14 +32,14 @@ const DropdownContent = styled.ul`
   }
 `;
 
-const StyledDropdown = styled.div`
+const StyledDropdown = styled.div<{ backgroundColor?: string }>`
   position: relative;
   display: inline-block;
   position: relative;
   width: 196px;
   height: 48px;
   border-radius: 16px;
-  background-color: #f0f4ef;
+  background-color: ${(props) => props.backgroundColor || "#f0f4ef"};
   padding: 10px 8px 10px 15px;
 
   &:hover {
@@ -56,13 +56,6 @@ const StyledDropdown = styled.div`
   }
 `;
 
-const DropdownName = styled.p`
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 28px;
-  color: #344966;
-`;
-
 const ArrowImg = styled.img`
   position: absolute;
   right: 8px;
@@ -72,14 +65,13 @@ const ArrowImg = styled.img`
 type DropdownnPropsType = {
   name: string;
   children: ReactNode;
+  backgroundColor?: string;
 };
 
 const Dropdown: React.FC<DropdownnPropsType> = (props) => {
   return (
-    <StyledDropdown>
-      {/* <DropdownName>{props.name}</DropdownName> */}
+    <StyledDropdown backgroundColor={props.backgroundColor}>
       <p className="my-class">{props.name}</p>
-
       <DropdownContent>{props.children}</DropdownContent>
       <ArrowImg src={arrow} alt="Arrow" />
     </StyledDropdown>

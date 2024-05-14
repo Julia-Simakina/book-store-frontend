@@ -4,7 +4,7 @@ type ButtonPropsType = {
   children: string;
   backgroundColor?: string;
   width?: string;
-  $primary?: boolean;
+  color?: string;
   marginTop?: string;
   fontSize?: string;
 };
@@ -20,10 +20,11 @@ const StyledButton = styled.button<ButtonPropsType>`
   margin-top: ${(props) => props.marginTop || "0px"};
   width: ${(props) => props.width || "230px"};
   font-size: ${(props) => props.fontSize || "16px"};
+  font-weight: 500;
   height: 44px;
   border-radius: 16px;
   background-color: ${(props) => props.backgroundColor || "#344966"};
-  color: ${(props) => (props.$primary ? " #f0f4ef" : "#0D1821")};
+  color: ${(props) => props.color || "#F0F4EF"};
   transition: all 0.2s ease;
 
   &:hover {
