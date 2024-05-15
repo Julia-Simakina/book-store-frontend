@@ -9,8 +9,7 @@ import styled from "styled-components";
 
 const AppWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
-  /* background-color: #c7c7c7; */
+  height: 100%;
 `;
 
 const App: React.FC = () => {

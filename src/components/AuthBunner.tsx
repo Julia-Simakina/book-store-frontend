@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import books from "../images/books.svg";
-import girl from "../images/girl.svg";
 import Title from "./Title";
 import SubTitle from "./SubTitle";
 import Button from "./Button";
 import castle from "../images/castle.svg";
 import fairy from "../images/fairy.svg";
+import { Link } from "react-router-dom";
 
 const StyledAuthBanner = styled.section`
   position: relative;
@@ -61,8 +60,12 @@ const AuthBunner: React.FC = () => {
           Authorize now and discover the fabulous world of books
         </SubTitle>
         <div className="button-container">
-          <Button width={"110px"}>Log In</Button>
-          <Button width={"110px"}>Sing Up</Button>
+          <Link to="/signin">
+            <Button width={"110px"}>Log In</Button>
+          </Link>
+          <Link to="/signup">
+            <Button width={"110px"}>Sing Up</Button>
+          </Link>
         </div>
       </TitleContainer>
     </StyledAuthBanner>

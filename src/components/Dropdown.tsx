@@ -1,13 +1,14 @@
-import React, { ReactNode, useState } from 'react';
-import styled from 'styled-components';
-import arrow from '../images/arrow.svg';
+import React, { ReactNode, useState } from "react";
+import styled from "styled-components";
+import arrow from "../images/arrow.svg";
+import ArrowIcon from "./ArrowIcon";
 
 const DropdownContent = styled.ul`
   position: absolute;
   left: 0;
-  background-color: ${props => props.color || '#f0f4ef'};
+  top: 65px;
+  background-color: ${(props) => props.color || "#f0f4ef"};
   min-width: 305px;
-  margin-top: 25px;
   border-radius: 16px;
   z-index: 1;
 
@@ -19,7 +20,7 @@ const DropdownContent = styled.ul`
   }
 
   &:after {
-    content: '';
+    content: "";
     width: 0;
     height: 0;
     position: absolute;
@@ -31,16 +32,15 @@ const DropdownContent = styled.ul`
   }
 `;
 
-const StyledDropdown = styled.div<{ backgroundColor?: string }>`
+const DropdownButton = styled.div<{ backgroundColor?: string }>`
   position: relative;
   display: inline-block;
   position: relative;
   width: 196px;
   height: 48px;
   border-radius: 16px;
-  background-color: ${props => props.backgroundColor || '#f0f4ef'};
+  background-color: ${(props) => props.backgroundColor || "#f0f4ef"};
   padding: 10px 8px 10px 15px;
-  }
 
   .my-class {
     font-size: 18px;
@@ -50,10 +50,8 @@ const StyledDropdown = styled.div<{ backgroundColor?: string }>`
   }
 `;
 
-const ArrowImg = styled.img`
-  position: absolute;
-  right: 8px;
-  top: 12px;
+const StyledDropdown = styled.div`
+  position: relative;
 `;
 
 type DropdownnPropsType = {
@@ -62,7 +60,7 @@ type DropdownnPropsType = {
   backgroundColor?: string;
 };
 
-const Dropdown: React.FC<DropdownnPropsType> = props => {
+const Dropdown: React.FC<DropdownnPropsType> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -70,10 +68,17 @@ const Dropdown: React.FC<DropdownnPropsType> = props => {
   };
 
   return (
-    <StyledDropdown backgroundColor={props.backgroundColor} onClick={toggleDropdown}>
-      <p className='my-class'>{props.name}</p>
+    <StyledDropdown className=" dropdown-container">
+      <DropdownButton
+        backgroundColor={props.backgroundColor}
+        onClick={toggleDropdown}
+      >
+        <p className="my-class">{props.name}</p>
+        {/* <ArrowImg src={arrow} alt="Arrow" /> */}
+        <ArrowIcon rotate="rotate(8deg)" />
+      </DropdownButton>
+
       {isOpen && <DropdownContent>{props.children}</DropdownContent>}
-      <ArrowImg src={arrow} alt='Arrow' />
     </StyledDropdown>
   );
 };

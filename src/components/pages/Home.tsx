@@ -1,27 +1,22 @@
-import styled from "styled-components";
 import Header from "../Header";
 import Banner from "../Banner";
 import Catalog from "../Catalog";
 import AuthBunner from "../AuthBunner";
 import Footer from "../Footer";
 
-const PageWrapper = styled.div`
-  max-width: 1440px;
-  padding: 24px 80px;
-  margin: 0 auto;
-`;
+import StyledMainWrapper from "./StyledMainWrapper ";
 
 const Home: React.FC = () => {
   return (
     <>
-      <PageWrapper>
+      <StyledMainWrapper>
         <Header />
         <main>
           <Banner />
-          <Catalog></Catalog>
+          <Catalog />
           <AuthBunner />
         </main>
-      </PageWrapper>
+      </StyledMainWrapper>
       <Footer />
     </>
   );

@@ -11,7 +11,7 @@ const Header: React.FC = () => {
         <Logo src={logo} />
       </Link>
       <Flex>
-        <CatalogLink href="#">Catalog</CatalogLink>
+        <CatalogLink href="#catalog">Catalog</CatalogLink>
         <InputContainer>
           <SearchImg src={search} alt="Search icon" />
           <Input type="text" placeholder="Search" />
