@@ -3,28 +3,35 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 import search from "../images/search.svg";
+import { useAppSelector } from "../store/store";
 
 const Header: React.FC = () => {
+  const myUser = useAppSelector((state) => state.user.currentUser);
+
   return (
     <StyledHeader>
       <Link to="/">
         <Logo src={logo} />
       </Link>
       <Flex>
-        <CatalogLink href="#catalog">Catalog</CatalogLink>
+        <CatalogLink href="/#catalog">Catalog</CatalogLink>
         <InputContainer>
           <SearchImg src={search} alt="Search icon" />
           <Input type="text" placeholder="Search" />
         </InputContainer>
       </Flex>
-      <ButtonContainer>
-        <Link to="/signin">
-          <Button width={"110px"}>Log In</Button>
-        </Link>
-        <Link to="/signup">
-          <Button width={"110px"}>Sing Up</Button>
-        </Link>
-      </ButtonContainer>
+      {myUser ? (
+        <p>Здесь иконки профиля и корзины</p>
+      ) : (
+        <ButtonContainer>
+          <Link to="/signin">
+            <Button width="110px">Log In</Button>
+          </Link>
+          <Link to="/signup">
+            <Button width={"110px"}>Sing Up</Button>
+          </Link>
+        </ButtonContainer>
+      )}
     </StyledHeader>
   );
 };

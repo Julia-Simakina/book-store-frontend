@@ -31,12 +31,12 @@ const Footer: React.FC = () => {
             </li>
 
             <li>
-              <Link to="#" className="footer-text menu__list-item">
+              <Link to="/profile" className="footer-text menu__list-item">
                 My Account
               </Link>
             </li>
             <li>
-              <Link to="#" className="footer-text menu__list-item">
+              <Link to="/cart" className="footer-text menu__list-item">
                 Cart
               </Link>
             </li>

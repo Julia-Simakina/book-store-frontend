@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 type ButtonPropsType = {
+  onClick?: () => void;
   children: string;
   backgroundColor?: string;
   width?: string;

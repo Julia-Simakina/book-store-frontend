@@ -1,28 +1,30 @@
 import { useLocation } from "react-router-dom";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 
-const AuthForm: React.FC<{ children: ReactNode }> = ({ children }) => {
+type PropsType = {
+  children: ReactNode;
+  onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+};
+const AuthForm: React.FC<PropsType> = ({ children, onSubmit }) => {
   const { pathname } = useLocation();
 
   const isSignUp = pathname === "/signup";
-
+  const isAuth = pathname === "/signup" || pathname === "/signin";
   const buttonText = isSignUp ? "Sing Up" : "Log In";
 
   return (
-    <StyledAuthForm
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
-    >
+    <StyledAuthForm onSubmit={onSubmit}>
       <fieldset className="auth__form-element">
         <div className="auth__form-container">{children}</div>
       </fieldset>
       <div className="auth__submit-container">
-        <Button marginTop="60px" width="166px">
-          {buttonText}
-        </Button>
+        {isAuth && (
+          <Button marginTop="60px" width="166px">
+            {buttonText}
+          </Button>
+        )}
       </div>
     </StyledAuthForm>
   );

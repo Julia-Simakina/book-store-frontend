@@ -3,11 +3,11 @@ import Header from "../Header";
 import Footer from "../Footer";
 import StyledMainWrapper from "./StyledMainWrapper ";
 import Title from "../Title";
-import AuthForm from "../AuthForm";
+import Form from "../Form";
 import boyImg from "../../images/boy.svg";
 import StyledPage from "./StyledPage";
 import { useState } from "react";
-import AuthInput from "../AuthInput";
+import Input from "../Input";
 import emailIcon from "../../images/Mail.svg";
 import hideIcon from "../../images/Hide.svg";
 
@@ -40,8 +40,8 @@ const SignUp: React.FC = () => {
         <StyledPageContainer>
           <div>
             <Title>Sign Up</Title>
-            <AuthForm>
-              <AuthInput
+            <Form>
+              <Input
                 src={emailIcon}
                 type="email"
                 id="email"
@@ -50,7 +50,7 @@ const SignUp: React.FC = () => {
                 inputTitle="Email"
                 hintTitle="Enter your email"
               />
-              <AuthInput
+              <Input
                 src={hideIcon}
                 type="password"
                 id="password"
@@ -59,7 +59,7 @@ const SignUp: React.FC = () => {
                 inputTitle="Password"
                 hintTitle="Enter your password"
               />
-              <AuthInput
+              <Input
                 src={hideIcon}
                 type="password"
                 id="password"
@@ -68,7 +68,7 @@ const SignUp: React.FC = () => {
                 inputTitle="Password replay"
                 hintTitle="Repeat your password without errors"
               />
-            </AuthForm>
+            </Form>
           </div>
           <img
             src={boyImg}

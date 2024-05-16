@@ -3,10 +3,13 @@ import Banner from "../Banner";
 import Catalog from "../Catalog";
 import AuthBunner from "../AuthBunner";
 import Footer from "../Footer";
+import { useAppSelector } from "../../store/store";
 
 import StyledMainWrapper from "./StyledMainWrapper ";
 
 const Home: React.FC = () => {
+  const myUser = useAppSelector((state) => state.user.currentUser);
+
   return (
     <>
       <StyledMainWrapper>
@@ -14,7 +17,7 @@ const Home: React.FC = () => {
         <main>
           <Banner />
           <Catalog />
-          <AuthBunner />
+          {!myUser && <AuthBunner />}
         </main>
       </StyledMainWrapper>
       <Footer />

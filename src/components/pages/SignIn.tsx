@@ -4,15 +4,21 @@ import Header from "../Header";
 import Footer from "../Footer";
 import StyledMainWrapper from "./StyledMainWrapper ";
 import Title from "../Title";
-import AuthForm from "../AuthForm";
+import Form from "../Form";
 import boyImg from "../../images/boy.svg";
-import AuthInput from "../AuthInput";
+import Input from "../Input";
 import StyledPage from "./StyledPage";
-
+import { setCurrentUser } from "../../store/UserSlice";
+import { useDispatch } from "react-redux";
+import hardCurrentUser from "../../store/hardCurrentUser";
 import emailIcon from "../../images/Mail.svg";
 import hideIcon from "../../images/Hide.svg";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SignIn: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const redirectTo = location.state?.from;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,6 +34,20 @@ const SignIn: React.FC = () => {
     setPassword(event.target.value);
   };
 
+  const dispatch = useDispatch();
+
+  const currentUser = hardCurrentUser;
+
+  const setUser = () => {
+    dispatch(setCurrentUser(currentUser));
+  };
+
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setUser();
+    navigate(redirectTo ? redirectTo : "/");
+  };
+
   return (
     <StyledPage>
       <StyledMainWrapper>
@@ -35,8 +55,8 @@ const SignIn: React.FC = () => {
         <StyledPageContainer>
           <div>
             <Title>Log In</Title>
-            <AuthForm>
-              <AuthInput
+            <Form onSubmit={handleSubmit}>
+              <Input
                 src={emailIcon}
                 type="email"
                 id="email"
@@ -45,7 +65,7 @@ const SignIn: React.FC = () => {
                 inputTitle="Email"
                 hintTitle="Enter your email"
               />
-              <AuthInput
+              <Input
                 src={hideIcon}
                 type="password"
                 id="password"
@@ -54,7 +74,7 @@ const SignIn: React.FC = () => {
                 inputTitle="Password"
                 hintTitle="Enter your password"
               />
-            </AuthForm>
+            </Form>
           </div>
           <img
             src={boyImg}
