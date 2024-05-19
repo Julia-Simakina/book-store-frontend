@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type UserType = {
   id: number;
   email: string;
@@ -10,22 +10,22 @@ type UserStateType = {
 };
 
 const initialState: UserStateType = {
-  currentUser: null,
+  currentUser: null
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
-    setCurrentUser: (state, action: PayloadAction<UserType | null>) => {
+    setUser: (state, action: PayloadAction<UserType | null>) => {
       state.currentUser = action.payload;
     },
 
-    logOutCurrentUser: (state, action: PayloadAction<UserType | null>) => {
+    logOutUser: (state, action: PayloadAction<UserType | null>) => {
       state.currentUser = null;
-    },
-  },
+    }
+  }
 });
 
-export const { setCurrentUser, logOutCurrentUser } = userSlice.actions;
+export const { setUser, logOutUser } = userSlice.actions;
 export default userSlice.reducer;

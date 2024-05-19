@@ -1,33 +1,32 @@
-import { useState } from "react";
-import Header from "../Header";
-import styled from "styled-components";
-import Footer from "../Footer";
-import StyledPage from "./StyledPage";
-import StyledMainWrapper from "./StyledMainWrapper ";
-import profilePhoto from "../../images/unsplash_WNoLnJo7tS8.png";
-import channgePhotoIcon from "../../images/button_photo.svg";
-import Input from "../Input";
-import profileIcon from "../../images/User profile.svg";
-import emailIcon from "../../images/Mail.svg";
-import Form from "../Form";
-import Button from "../Button";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../store/store";
-import { logOutCurrentUser } from "../../store/UserSlice";
+import { useState } from 'react';
+import Header from '../Header';
+import styled from 'styled-components';
+import Footer from '../Footer';
+import StyledPage from './StyledPage';
+import StyledMainWrapper from './StyledMainWrapper ';
+import profilePhoto from '../../images/unsplash_WNoLnJo7tS8.png';
+import channgePhotoIcon from '../../images/button_photo.svg';
+import Input from '../Input';
+import profileIcon from '../../images/User profile.svg';
+import emailIcon from '../../images/Mail.svg';
+import Form from '../Form';
+import Button from '../Button';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../store/store';
+import { logOutUser } from '../../store/UserSlice';
 
 const Profile: React.FC = () => {
-  const myUser = useAppSelector((state) => state.user.currentUser);
-  const [userName, setUserName] = useState("");
+  const myUser = useAppSelector(state => state.user.currentUser);
+  const [userName, setUserName] = useState('');
 
-  const handleUserNameInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleUserNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
   };
   const dispatch = useDispatch();
 
   const handlelogOutUser = () => {
-    dispatch(logOutCurrentUser(myUser));
+    dispatch(logOutUser(myUser));
+    localStorage.removeItem('jwt');
   };
 
   return (
@@ -36,32 +35,32 @@ const Profile: React.FC = () => {
         <Header />
         <StyledPageContainer>
           <PhotoContainer>
-            <ProfilePhoto src={profilePhoto} alt="Profile photo" />
-            <img src={channgePhotoIcon} alt="" className="channge-photo-icon" />
+            <ProfilePhoto src={profilePhoto} alt='Profile photo' />
+            <img src={channgePhotoIcon} alt='' className='channge-photo-icon' />
           </PhotoContainer>
 
           <UserInfo>
-            <h2 className="info-title">Personal information</h2>
+            <h2 className='info-title'>Personal information</h2>
 
             <Form>
               <Input
                 src={profileIcon}
-                id="user-name"
-                type="text"
+                id='user-name'
+                type='text'
                 value={userName}
                 onChange={handleUserNameInputChange}
-                inputTitle="Your name"
+                inputTitle='Your name'
               />
               <Input
                 src={emailIcon}
-                id="user-name"
-                type="text"
+                id='user-name'
+                type='text'
                 value={userName}
                 onChange={handleUserNameInputChange}
-                inputTitle="Your name"
+                inputTitle='Your name'
               />
             </Form>
-            <Button marginTop="40px" onClick={handlelogOutUser}>
+            <Button marginTop='40px' onClick={handlelogOutUser}>
               Log out
             </Button>
           </UserInfo>

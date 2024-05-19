@@ -1,60 +1,50 @@
-import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import Home from "./components/pages/Home";
-import SignIn from "./components/pages/SignIn";
-import SignUp from "./components/pages/SignUp";
-import Product from "./components/pages/Product";
-import Cart from "./components/pages/Cart";
-import Profile from "./components/pages/Profile";
-import styled from "styled-components";
-import { useAppSelector } from "./store/store";
-import { Navigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Home from './components/pages/Home';
+import SignIn from './components/pages/SignIn';
+import SignUp from './components/pages/SignUp';
+import Product from './components/pages/Product';
+import Cart from './components/pages/Cart';
+import Profile from './components/pages/Profile';
+import styled from 'styled-components';
+import { useAppSelector } from './store/store';
+import RequireAuth from './components/RequireAuth';
 
 const App: React.FC = () => {
-  const myUser = useAppSelector((state) => state.user.currentUser);
-  console.log(myUser);
+  const myUser = useAppSelector(state => state.user.currentUser);
+  const [storeInitialized, setStoreInitialized] = useState(false);
 
-  function RequireAuth({ children }: { children: JSX.Element }) {
-    let location = useLocation();
-
-    if (!myUser) {
-      return <Navigate to="/signin" state={{ from: location }} replace />;
+  useEffect(() => {
+    if (myUser) {
+      setStoreInitialized(true);
     }
-
-    return children;
-  }
+  }, [myUser]);
 
   return (
     <AppWrapper>
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route
-          path="/signin"
-          element={myUser ? <Navigate to="/" replace /> : <SignIn />}
-        ></Route>
-        <Route
-          path="/signup"
-          element={myUser ? <Navigate to="/" replace /> : <SignUp />}
-        ></Route>
-        <Route path="/product-page/:id" element={<Product />}></Route>
+        <Route path='/' element={<Home />} />
+        <Route path='/signin' element={myUser ? <Navigate to='/' replace /> : <SignIn />} />
+        <Route path='/signup' element={myUser ? <Navigate to='/' replace /> : <SignUp />} />
+        <Route path='/product-page/:id' element={<Product />} />
 
         <Route
-          path="/cart"
+          path='/cart'
           element={
             <RequireAuth>
               <Cart />
             </RequireAuth>
           }
-        ></Route>
+        />
 
         <Route
-          path="/profile"
+          path='/profile'
           element={
             <RequireAuth>
               <Profile />
             </RequireAuth>
           }
-        ></Route>
+        />
       </Routes>
     </AppWrapper>
   );
