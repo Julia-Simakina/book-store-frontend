@@ -1,20 +1,32 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-type UserType = {
-  id: number;
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type UserType = {
+  id?: number;
   email: string;
   password: string;
+  tokens?: any;
+  user?: any; //переделать
+  fullName?: null;
+  ayOfBirth?: null;
+  deletedAt?: null;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
-type UserStateType = {
+export type UserStateType = {
   currentUser: UserType | null;
 };
 
+export type logginedUser = {
+  currentUser: UserType;
+};
+
 const initialState: UserStateType = {
-  currentUser: null
+  currentUser: null,
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserType | null>) => {
@@ -23,8 +35,8 @@ const userSlice = createSlice({
 
     logOutUser: (state, action: PayloadAction<UserType | null>) => {
       state.currentUser = null;
-    }
-  }
+    },
+  },
 });
 
 export const { setUser, logOutUser } = userSlice.actions;

@@ -1,35 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import Home from './components/pages/Home';
-import SignIn from './components/pages/SignIn';
-import SignUp from './components/pages/SignUp';
-import Product from './components/pages/Product';
-import Cart from './components/pages/Cart';
-import Profile from './components/pages/Profile';
-import styled from 'styled-components';
-import { useAppSelector } from './store/store';
-import RequireAuth from './components/RequireAuth';
+import React, { useEffect, useState } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Home from "./components/pages/Home";
+import SignIn from "./components/pages/SignIn";
+import SignUp from "./components/pages/SignUp";
+import Product from "./components/pages/Product";
+import Cart from "./components/pages/Cart";
+import Profile from "./components/pages/Profile";
+import styled from "styled-components";
+import { useAppSelector } from "./store/store";
+import RequireAuth from "./components/RequireAuth";
+import { useDispatch } from "react-redux";
+import { setUser } from "./store/UserSlice";
+import { getMe } from "./http/api";
+import OnlyNotLogged from "./components/OnlyNotLogged";
 
 const App: React.FC = () => {
-  const myUser = useAppSelector(state => state.user.currentUser);
+  const dispatch = useDispatch();
+
   const [storeInitialized, setStoreInitialized] = useState(false);
 
   useEffect(() => {
-    if (myUser) {
-      setStoreInitialized(true);
-    }
-  }, [myUser]);
+    (async () => {
+      try {
+        const currentUser = await getMe();
+        console.log(currentUser);
+        dispatch(setUser(currentUser));
+        setStoreInitialized(true);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    console.log(">>>>>>>>>>>>>", storeInitialized);
+  }, [storeInitialized]);
+
+  // if (!storeInitialized) {
+  //   return null;
+  // }
 
   return (
     <AppWrapper>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/signin' element={myUser ? <Navigate to='/' replace /> : <SignIn />} />
-        <Route path='/signup' element={myUser ? <Navigate to='/' replace /> : <SignUp />} />
-        <Route path='/product-page/:id' element={<Product />} />
+        <Route path="/" element={<Home />} />
 
         <Route
-          path='/cart'
+          path="/signin"
+          element={
+            <OnlyNotLogged>
+              <SignIn />
+            </OnlyNotLogged>
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            <OnlyNotLogged>
+              <SignUp />
+            </OnlyNotLogged>
+          }
+        />
+        <Route path="/product-page/:id" element={<Product />} />
+
+        <Route
+          path="/cart"
           element={
             <RequireAuth>
               <Cart />
@@ -38,7 +74,7 @@ const App: React.FC = () => {
         />
 
         <Route
-          path='/profile'
+          path="/profile"
           element={
             <RequireAuth>
               <Profile />
