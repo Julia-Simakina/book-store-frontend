@@ -3,7 +3,7 @@ import Header from '../Header';
 import styled from 'styled-components';
 import Footer from '../Footer';
 import StyledPage from './StyledPage';
-import StyledMainWrapper from './StyledMainWrapper ';
+import StyledMainWrapper from './StyledMainWrapper';
 import profilePhoto from '../../images/unsplash_WNoLnJo7tS8.png';
 import channgePhotoIcon from '../../images/button_photo.svg';
 import Input from '../Input';

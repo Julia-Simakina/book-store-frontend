@@ -1,7 +1,7 @@
-import { useLocation } from "react-router-dom";
-import { ReactNode } from "react";
-import styled from "styled-components";
-import Button from "./Button";
+import { useLocation } from 'react-router-dom';
+import { ReactNode } from 'react';
+import styled from 'styled-components';
+import Button from './Button';
 
 type PropsType = {
   children: ReactNode;
@@ -10,18 +10,18 @@ type PropsType = {
 const AuthForm: React.FC<PropsType> = ({ children, onSubmit }) => {
   const { pathname } = useLocation();
 
-  const isSignUp = pathname === "/signup";
-  const isAuth = pathname === "/signup" || pathname === "/signin";
-  const buttonText = isSignUp ? "Sing Up" : "Log In";
+  const isSignUp = pathname === '/signup';
+  const isAuth = pathname === '/signup' || pathname === '/signin';
+  const buttonText = isSignUp ? 'Sing Up' : 'Log In';
 
   return (
     <StyledAuthForm onSubmit={onSubmit}>
-      <fieldset className="auth__form-element">
-        <div className="auth__form-container">{children}</div>
+      <fieldset className='auth__form-element'>
+        <div className='auth__form-container'>{children}</div>
       </fieldset>
-      <div className="auth__submit-container">
+      <div className='auth__submit-container'>
         {isAuth && (
-          <Button marginTop="60px" width="166px">
+          <Button marginTop='60px' width='166px'>
             {buttonText}
           </Button>
         )}

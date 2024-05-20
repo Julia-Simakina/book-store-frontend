@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Header from '../Header';
 import Footer from '../Footer';
-import StyledMainWrapper from './StyledMainWrapper ';
+import StyledMainWrapper from './StyledMainWrapper';
 import Title from '../Title';
 import Form from '../Form';
 import boyImg from '../../images/boy.svg';

@@ -1,105 +1,80 @@
-import axios, { AxiosResponse } from "axios";
-import { UserType } from "../store/UserSlice";
+import axios, { AxiosResponse } from 'axios';
+import { UserType } from '../types';
 
-const token = localStorage.getItem("jwt");
+const token: string | null = localStorage.getItem('jwt');
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: 'http://localhost:3000/',
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
 });
 
-export type tokenType = {
+type AuthUserType = {
+  email: string;
+  password: string;
+};
+
+type ResponseLoginUserType = {
+  id: number;
+  email: string;
+};
+
+type TokenType = {
   accessToken: string;
 };
 
-// interface User {
-//   id?: number;
-//   email: string;
-//   password: string;
-//   tokens: tokenType;
-//   fullName?: null;
-//   ayOfBirth?: null;
-//   deletedAt?: null;
-//   createdAt?: string;
-//   updatedAt?: string;
-// }
+type ResponseLoginType = {
+  tokens: TokenType;
+  user: ResponseLoginUserType;
+};
 
-// Добавление нового пользователя
-export const createUser = async (userData: UserType): Promise<UserType> => {
+export const createUser = async (userData: AuthUserType): Promise<AuthUserType> => {
   try {
-    const response: AxiosResponse<UserType> = await api.post(
-      "api/auth/signup",
-      userData
-    );
+    const response: AxiosResponse<AuthUserType> = await api.post('api/auth/signup', userData);
     return response.data;
   } catch (error) {
-    console.error("Error creating user: ", error);
+    console.error('Error creating user: ', error);
     throw error;
   }
 };
 
-// Вход
-export const loginUser = async (userData: UserType): Promise<UserType> => {
+export const loginUser = async (userData: AuthUserType): Promise<ResponseLoginType> => {
   try {
-    const response: AxiosResponse<UserType> = await api.post(
-      "api/auth/signin",
-      userData
-    );
+    const response: AxiosResponse<ResponseLoginType> = await api.post('api/auth/signin', userData);
     return response.data;
   } catch (error) {
-    console.error("Error creating user: ", error);
+    console.error('Error logging in: ', error);
     throw error;
   }
 };
 
-// // Получение текущего пользователя
-// export const getMe = async (token: any) => {
-//   try {
-//     const response = await api.get("api/user/getme", {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching user: ", error);
-//     throw error;
-//   }
-// };
-// Получение текущего пользователя
 export const getMe = async (): Promise<UserType> => {
   try {
-    const response = await api.get("api/user/getme", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get('api/user/getme');
     return response.data;
   } catch (error) {
-    console.error("Error fetching user: ", error);
+    console.error('Error fetching user data: ', error);
     throw error;
   }
 };
 
-// Получение пользователя по id
 export const getUserById = async (userId: number): Promise<UserType> => {
   try {
-    const response: AxiosResponse<UserType> = await api.get(
-      `api/user/${userId}`
-    );
+    const response: AxiosResponse<UserType> = await api.get(`api/user/${userId}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user: ", error);
+    console.error('Error fetching user data by ID: ', error);
     throw error;
   }
 };
 
-// Получение всех пользователей
 export const getUsers = async (): Promise<UserType[]> => {
   try {
-    const response: AxiosResponse<UserType[]> = await api.get("api/user/all");
+    const response: AxiosResponse<UserType[]> = await api.get('api/user/all');
     return response.data;
   } catch (error) {
-    console.error("Error fetching users: ", error);
+    console.error('Error fetching users data: ', error);
     throw error;
   }
 };

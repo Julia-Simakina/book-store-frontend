@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import Home from "./components/pages/Home";
-import SignIn from "./components/pages/SignIn";
-import SignUp from "./components/pages/SignUp";
-import Product from "./components/pages/Product";
-import Cart from "./components/pages/Cart";
-import Profile from "./components/pages/Profile";
-import styled from "styled-components";
-import { useAppSelector } from "./store/store";
-import RequireAuth from "./components/RequireAuth";
-import { useDispatch } from "react-redux";
-import { setUser } from "./store/UserSlice";
-import { getMe } from "./http/api";
-import OnlyNotLogged from "./components/OnlyNotLogged";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { setUser } from './store/UserSlice';
+import { getMe } from './http/api';
+import AppRoutes from './components/routes/Routes';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,7 +24,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(">>>>>>>>>>>>>", storeInitialized);
+    console.log('>>>>>>>>>>>>>', storeInitialized);
   }, [storeInitialized]);
 
   // if (!storeInitialized) {
@@ -42,46 +33,7 @@ const App: React.FC = () => {
 
   return (
     <AppWrapper>
-      <Routes>
-        <Route path="/" element={<Home />} />
-
-        <Route
-          path="/signin"
-          element={
-            <OnlyNotLogged>
-              <SignIn />
-            </OnlyNotLogged>
-          }
-        />
-
-        <Route
-          path="/signup"
-          element={
-            <OnlyNotLogged>
-              <SignUp />
-            </OnlyNotLogged>
-          }
-        />
-        <Route path="/product-page/:id" element={<Product />} />
-
-        <Route
-          path="/cart"
-          element={
-            <RequireAuth>
-              <Cart />
-            </RequireAuth>
-          }
-        />
-
-        <Route
-          path="/profile"
-          element={
-            <RequireAuth>
-              <Profile />
-            </RequireAuth>
-          }
-        />
-      </Routes>
+      <AppRoutes />
     </AppWrapper>
   );
 };
