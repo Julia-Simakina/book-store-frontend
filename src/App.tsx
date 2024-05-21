@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { setUser } from "./store/UserSlice";
-import { getMe } from "./http/api";
-import AppRoutes from "./components/routes/Routes";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { setUser } from './store/UserSlice';
+import { getMe } from './http/api';
+import AppRoutes from './components/routes/Routes';
+import { useAppSelector } from './store/store';
 
 const App: React.FC = () => {
-  const dispatch = useDispatch();
-
   const [storeInitialized, setStoreInitialized] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -19,17 +20,23 @@ const App: React.FC = () => {
         setStoreInitialized(true);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     })();
   }, []);
 
   useEffect(() => {
-    console.log(">>>>>>>>>>>>>", storeInitialized);
+    console.log('>>>>>>>>>>>>>', storeInitialized);
   }, [storeInitialized]);
 
   // if (!storeInitialized) {
   //   return null;
   // }
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <AppWrapper>
