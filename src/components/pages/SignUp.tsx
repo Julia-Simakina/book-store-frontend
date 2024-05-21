@@ -1,48 +1,44 @@
-import styled from 'styled-components';
-import Header from '../Header';
-import Footer from '../Footer';
-import StyledMainWrapper from './StyledMainWrapper';
-import Title from '../Title';
-import Form from '../Form';
-import boyImg from '../../images/boy.svg';
-import StyledPage from './StyledPage';
-import { useState } from 'react';
-import Input from '../Input';
-import emailIcon from '../../images/Mail.svg';
-import hideIcon from '../../images/Hide.svg';
-import { createUser } from '../../http/api';
-import { useNavigate } from 'react-router-dom';
+import styled from "styled-components";
+import Header from "../Header";
+import Footer from "../Footer";
+import StyledMainWrapper from "./StyledMainWrapper";
+import Title from "../Title";
+import boyImg from "../../images/boy.svg";
+import StyledPage from "./StyledPage";
+import emailIcon from "../../images/Mail.svg";
+import hideIcon from "../../images/Hide.svg";
+import { createUser } from "../../http/api";
+import { useNavigate } from "react-router-dom";
+import CustomForm from "../CustomForm";
+import CustomInput from "../CustomInput";
+import { schemas } from "../validation";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
 
-  const handleEmailInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  type ValueType = {
+    email: string;
+    password: string;
+    repeatPassword: string;
   };
 
-  const handlePasswordInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+  const initialValues = {
+    email: "",
+    password: "",
+    repeatPassword: "",
   };
 
-  const handleRepeatPasswordInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRepeatPassword(event.target.value);
-  };
-
-  const handleSignUp = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (password !== repeatPassword) return;
+  const handleSignUp = async (values: ValueType) => {
+    if (values.password !== values.repeatPassword) return;
     try {
       const newUser = {
-        email,
-        password
+        email: values.email,
+        password: values.password,
       };
 
       const createdUser = await createUser(newUser);
-      console.log('User created successfully:', createdUser);
-      navigate('/signin');
+      console.log("User created successfully:", createdUser);
+      navigate("/signin");
     } catch (error) {
       console.error(error);
     }
@@ -55,37 +51,43 @@ const SignUp: React.FC = () => {
         <StyledPageContainer>
           <div>
             <Title>Sign Up</Title>
-            <Form onSubmit={handleSignUp}>
-              <Input
+            <CustomForm
+              validationSchema={schemas.signUp}
+              initialValues={initialValues}
+              onSubmit={handleSignUp}
+            >
+              <CustomInput
+                name="email"
+                labelTitle="Email"
+                id="email"
+                htmlFor="email"
                 src={emailIcon}
-                type='email'
-                id='email'
-                value={email}
-                onChange={handleEmailInputChange}
-                inputTitle='Email'
-                hintTitle='Enter your email'
+                hintTitle="Enter your email"
               />
-              <Input
+              <CustomInput
+                name="password"
+                labelTitle="Password"
+                id="password"
+                htmlFor="password"
                 src={hideIcon}
-                type='password'
-                id='password'
-                value={password}
-                onChange={handlePasswordInputChange}
-                inputTitle='Password'
-                hintTitle='Enter your password'
+                hintTitle="Enter your password"
               />
-              <Input
+              <CustomInput
+                name="repeatPassword"
+                labelTitle="Password replay"
+                id="repeatPassword"
+                htmlFor="repeatPassword"
                 src={hideIcon}
-                type='password'
-                id='password'
-                value={repeatPassword}
-                onChange={handleRepeatPasswordInputChange}
-                inputTitle='Password replay'
-                hintTitle='Repeat your password without errors'
+                hintTitle="Repeat your password without errors"
               />
-            </Form>
+            </CustomForm>
           </div>
-          <img src={boyImg} alt='The boy is reading' className='background-image' />
+
+          <img
+            src={boyImg}
+            alt="The boy is reading"
+            className="background-image"
+          />
         </StyledPageContainer>
       </StyledMainWrapper>
       <Footer />

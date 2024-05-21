@@ -1,32 +1,52 @@
-import { useState } from 'react';
-import Header from '../Header';
-import styled from 'styled-components';
-import Footer from '../Footer';
-import StyledPage from './StyledPage';
-import StyledMainWrapper from './StyledMainWrapper';
-import profilePhoto from '../../images/unsplash_WNoLnJo7tS8.png';
-import channgePhotoIcon from '../../images/button_photo.svg';
-import Input from '../Input';
-import profileIcon from '../../images/User profile.svg';
-import emailIcon from '../../images/Mail.svg';
-import Form from '../Form';
-import Button from '../Button';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../store/store';
-import { logOutUser } from '../../store/UserSlice';
+import Header from "../Header";
+import styled from "styled-components";
+import Footer from "../Footer";
+import StyledPage from "./StyledPage";
+import StyledMainWrapper from "./StyledMainWrapper";
+import profilePhoto from "../../images/unsplash_WNoLnJo7tS8.png";
+import channgePhotoIcon from "../../images/button_photo.svg";
+import profileIcon from "../../images/User profile.svg";
+import emailIcon from "../../images/Mail.svg";
+import CustomForm from "../CustomForm";
+import Button from "../Button";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../store/store";
+import { logOutUser } from "../../store/UserSlice";
+import CustomInput from "../CustomInput";
+import { useState } from "react";
+import { updateUser } from "../../http/api";
 
 const Profile: React.FC = () => {
-  const myUser = useAppSelector(state => state.user.currentUser);
-  const [userName, setUserName] = useState('');
-
-  const handleUserNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value);
-  };
+  const [isEditing, setIsEditing] = useState(false);
+  const currentUser = useAppSelector((state) => state.user.currentUser);
+  console.log("currentUser", currentUser?.id);
   const dispatch = useDispatch();
 
   const handlelogOutUser = () => {
-    dispatch(logOutUser(myUser));
-    localStorage.removeItem('jwt');
+    dispatch(logOutUser(currentUser));
+    localStorage.removeItem("jwt");
+  };
+
+  const initialValues = {
+    userName: "",
+    email: currentUser?.email ?? "",
+  };
+
+  const handleToggleEditing = () => {
+    setIsEditing((prevState) => !prevState);
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      if (!currentUser) return;
+      const udatedUser = await updateUser(currentUser.id);
+      console.log("User created successfully:", udatedUser);
+      setIsEditing(false);
+
+      // navigate("/signin");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -35,32 +55,51 @@ const Profile: React.FC = () => {
         <Header />
         <StyledPageContainer>
           <PhotoContainer>
-            <ProfilePhoto src={profilePhoto} alt='Profile photo' />
-            <img src={channgePhotoIcon} alt='' className='channge-photo-icon' />
+            <ProfilePhoto src={profilePhoto} alt="Profile photo" />
+            <img src={channgePhotoIcon} alt="" className="channge-photo-icon" />
           </PhotoContainer>
 
           <UserInfo>
-            <h2 className='info-title'>Personal information</h2>
+            <h2 className="info-title">Personal information</h2>
 
-            <Form>
-              <Input
+            <CustomForm
+              initialValues={initialValues}
+              onSubmit={handleSaveChanges}
+            >
+              <CustomInput
+                name="userName"
+                labelTitle="Your name"
+                id="userName"
+                htmlFor="email"
                 src={profileIcon}
-                id='user-name'
-                type='text'
-                value={userName}
-                onChange={handleUserNameInputChange}
-                inputTitle='Your name'
+                hintTitle="Enter your name"
+                disabled={!isEditing}
               />
-              <Input
+              <CustomInput
+                name="email"
+                labelTitle="Email"
+                id="email"
+                htmlFor="email"
                 src={emailIcon}
-                id='user-name'
-                type='text'
-                value={userName}
-                onChange={handleUserNameInputChange}
-                inputTitle='Your name'
+                hintTitle="Enter your email"
+                disabled={!isEditing}
               />
-            </Form>
-            <Button marginTop='40px' onClick={handlelogOutUser}>
+            </CustomForm>
+
+            {isEditing ? (
+              <Button backgroundColor="#062290" onClick={handleSaveChanges}>
+                Save
+              </Button>
+            ) : (
+              <Button backgroundColor="#062290" onClick={handleToggleEditing}>
+                Edit
+              </Button>
+            )}
+            <Button
+              backgroundColor="grey"
+              marginTop="40px"
+              onClick={handlelogOutUser}
+            >
               Log out
             </Button>
           </UserInfo>

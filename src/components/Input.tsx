@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 type InputType = {
   src: string;
@@ -11,19 +11,19 @@ type InputType = {
   hintTitle?: string;
 };
 
-const Input: React.FC<InputType> = props => {
+const Input: React.FC<InputType> = (props) => {
   const isInputFilled = props.value.length > 0;
 
   return (
     <InputContainerWrapper>
       <InputContainer>
-        <InputImg src={props.src} alt='Search icon' />
+        <InputImg src={props.src} alt="Search icon" />
         <StyledInput {...props} />
         <Label htmlFor={props.id} isFilled={isInputFilled}>
           {props.inputTitle}
         </Label>
       </InputContainer>
-      <span className='hint'>{props.hintTitle}</span>
+      <span className="hint">{props.hintTitle}</span>
     </InputContainerWrapper>
   );
 };
@@ -75,11 +75,11 @@ const StyledInput = styled.input`
 
 const Label = styled.label<{ isFilled: boolean }>`
   position: absolute;
-  top: ${props => (props.isFilled ? '15px' : '50%')};
+  top: ${(props) => (props.isFilled ? "15px" : "50%")};
   left: 65px;
   transform: translateY(-50%);
-  font-size: ${props => (props.isFilled ? '12px' : '16px')};
-  color: ${props => (props.isFilled ? '#344966' : '#b9bac3')};
+  font-size: ${(props) => (props.isFilled ? "12px" : "16px")};
+  color: ${(props) => (props.isFilled ? "#344966" : "#b9bac3")};
   pointer-events: none;
   transition: all 0.3s;
 `;
