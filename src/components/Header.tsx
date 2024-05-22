@@ -6,7 +6,7 @@ import search from "../images/search.svg";
 import { useAppSelector } from "../store/store";
 
 const Header: React.FC = () => {
-  const myUser = useAppSelector((state) => state.user.currentUser);
+  const currentUser = useAppSelector((state) => state.main.currentUser);
 
   return (
     <StyledHeader>
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
           <Input type="text" placeholder="Search" />
         </InputContainer>
       </Flex>
-      {myUser ? (
+      {currentUser ? (
         <p>Здесь иконки профиля и корзины</p>
       ) : (
         <ButtonContainer>

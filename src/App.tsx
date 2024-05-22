@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { setUser } from './store/UserSlice';
-import { getMe } from './http/api';
-import AppRoutes from './components/routes/Routes';
-import { useAppSelector } from './store/store';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { setUser } from "./store/UserSlice";
+import { getMe } from "./http/api";
+import AppRoutes from "./components/routes/Routes";
 
 const App: React.FC = () => {
   const [storeInitialized, setStoreInitialized] = useState(false);
@@ -17,17 +16,17 @@ const App: React.FC = () => {
         const currentUser = await getMe();
         console.log(currentUser);
         dispatch(setUser(currentUser));
-        setStoreInitialized(true);
       } catch (error) {
         console.error(error);
       } finally {
+        setStoreInitialized(true);
         setLoading(false);
       }
     })();
   }, []);
 
   useEffect(() => {
-    console.log('>>>>>>>>>>>>>', storeInitialized);
+    console.log(">>>>>>>>>>>>>", storeInitialized);
   }, [storeInitialized]);
 
   // if (!storeInitialized) {

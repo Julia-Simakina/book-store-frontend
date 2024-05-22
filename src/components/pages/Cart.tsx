@@ -1,7 +1,7 @@
 import { useAppSelector } from "../../store/store";
 
 const Cart: React.FC = () => {
-  const myUser = useAppSelector((state) => state.user.currentUser);
+  const myUser = useAppSelector((state) => state.main.currentUser);
 
   return (
     <header className="header">
