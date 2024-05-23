@@ -5,6 +5,20 @@ import Title from "./Title";
 import SubTitle from "./SubTitle";
 import Button from "./Button";
 
+const Banner: React.FC = () => {
+  return (
+    <StyledBanner>
+      <BooksImg src={books} alt="Books" />
+      <GirlImg src={girl} alt="The girl is reading" />
+      <TitleContainer>
+        <Title>Build your library with us</Title>
+        <SubTitle>Buy two books and get one for free</SubTitle>
+        <Button marginTop="50px">Choose a book</Button>
+      </TitleContainer>
+    </StyledBanner>
+  );
+};
+
 const StyledBanner = styled.section`
   position: relative;
 
@@ -39,18 +53,4 @@ const TitleContainer = styled.div`
   flex-direction: column;
   margin-left: 108px;
 `;
-
-const Banner: React.FC = () => {
-  return (
-    <StyledBanner>
-      <BooksImg src={books} alt="Books" />
-      <GirlImg src={girl} alt="The girl is reading" />
-      <TitleContainer>
-        <Title>Build your library with us</Title>
-        <SubTitle>Buy two books and get one for free</SubTitle>
-        <Button marginTop={"50px"}>Choose a book</Button>
-      </TitleContainer>
-    </StyledBanner>
-  );
-};
 export default Banner;

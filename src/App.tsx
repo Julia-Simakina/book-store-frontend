@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { setUser } from "./store/UserSlice";
+import { setUser } from "./store/MainSlice";
 import { getMe } from "./http/api";
 import AppRoutes from "./components/routes/Routes";
 

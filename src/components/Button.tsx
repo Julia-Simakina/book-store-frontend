@@ -8,6 +8,7 @@ type ButtonPropsType = {
   color?: string;
   marginTop?: string;
   fontSize?: string;
+  type?: string;
 };
 
 const Button: React.FC<ButtonPropsType> = (props) => {

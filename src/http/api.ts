@@ -15,8 +15,6 @@ type AuthRequestBodyType = {
   password: string;
 };
 
-type SignUpResponseType = {};
-
 type ResponseLoginUserType = {
   id: number;
   email: string;
