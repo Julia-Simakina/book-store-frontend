@@ -11,21 +11,21 @@ import { useAppSelector } from "../../store/store";
 import { logOutUser } from "../../store/MainSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UpdateUserInfoForm from "../UpdateUserInfoForm";
-import UpdatePasswordForm from "../UpdatePasswordForm";
+import UpdateUserInfoForm from "../Form/UpdateUserInfoForm";
+import UpdatePasswordForm from "../Form/UpdatePasswordForm";
 
 const Profile: React.FC = () => {
-  const currentUser = useAppSelector((state) => state.main.currentUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const currentUser = useAppSelector((state) => state.main.currentUser);
 
   useEffect(() => {
     console.log("currentUser", currentUser);
   }, [currentUser]);
 
-  const dispatch = useDispatch();
-
   const handlelogOutUser = () => {
-    dispatch(logOutUser(currentUser));
+    dispatch(logOutUser());
     localStorage.removeItem("jwt");
     navigate("/");
   };

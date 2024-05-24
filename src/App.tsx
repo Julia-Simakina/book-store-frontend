@@ -7,20 +7,18 @@ import AppRoutes from "./components/routes/Routes";
 
 const App: React.FC = () => {
   const [storeInitialized, setStoreInitialized] = useState(false);
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  // const token = localStorage.getItem("jwt");
 
   useEffect(() => {
     (async () => {
       try {
         const currentUser = await getMe();
-        console.log(currentUser);
         dispatch(setUser(currentUser));
       } catch (error) {
         console.error(error);
       } finally {
         setStoreInitialized(true);
-        setLoading(false);
       }
     })();
   }, []);
@@ -29,11 +27,7 @@ const App: React.FC = () => {
     console.log(">>>>>>>>>>>>>", storeInitialized);
   }, [storeInitialized]);
 
-  // if (!storeInitialized) {
-  //   return null;
-  // }
-
-  if (loading) {
+  if (!storeInitialized) {
     return <p>Loading...</p>;
   }
 

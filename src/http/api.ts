@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import { UserType } from "../types";
 
-const token: string | null = localStorage.getItem("jwt");
+const token = (): string | null => localStorage.getItem("jwt");
 
 const api = axios.create({
   baseURL: "http://localhost:3000/",
   headers: {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${token()}`,
   },
 });
 
@@ -73,7 +73,7 @@ export const getMe = async (): Promise<UserType> => {
 export const updateUser = async (
   userId: number,
   userData: Partial<UserType>
-) => {
+): Promise<UserType> => {
   try {
     const response = await api.put(`api/user/${userId}`, userData);
     return response.data;
@@ -118,22 +118,3 @@ export const comparePassword = async (userId: number, oldPassword: any) => {
 };
 
 export default api;
-
-// const handleSavePasswordChanges = async (values: ValuePasswordType) => {
-//   try {
-//     if (!currentUser) throw Error("User not found");
-//     // Сравниваем старый пароль на сервере
-//     const passwordComparisonResult = await comparePassword(Number(currentUser.id), values.oldPassword);
-//     if (!passwordComparisonResult.success) {
-//       throw new Error("Old password does not match");
-//     }
-//     const updatedPassword = {
-//       password: values.password,
-//     };
-//     const updatedUser = await updateUser(Number(currentUser.id), updatedPassword);
-//     console.log("User password updated successfully:", updatedUser);
-//     setIsEditingPassword(false);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };

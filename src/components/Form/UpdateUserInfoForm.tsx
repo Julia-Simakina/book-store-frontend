@@ -1,17 +1,20 @@
 import { useFormik } from "formik";
-import Button from "./Button";
-import emailIcon from "../images/Mail.svg";
-import hideIcon from "../images/Hide.svg";
-import { schemas } from "./validation";
+import Button from "../Button";
+import emailIcon from "../../images/Mail.svg";
+import hideIcon from "../../images/Hide.svg";
+import { schemas } from "../validation";
 import {
   InputWrapper,
   StyleForm,
   EditButton,
   TitleWrapper,
-} from "./Form/StyledForm";
+} from "./StyledForm";
 import { useState } from "react";
-import { useAppSelector } from "../store/store";
-import { updateUser } from "../http/api";
+import { useAppSelector } from "../../store/store";
+import { updateUser } from "../../http/api";
+import { UserType } from "../../types";
+import { useAppDispatch } from "../../store/store";
+import { setUser } from "../../store/MainSlice";
 
 type ValueInfoType = {
   name?: string;
@@ -19,6 +22,7 @@ type ValueInfoType = {
 };
 
 const UpdateUserInfoForm = () => {
+  const dispatch = useAppDispatch();
   const [isUserInfoEditing, setIsUserInfoEditing] = useState(false);
   const currentUser = useAppSelector((state) => state.main.currentUser);
 
@@ -28,8 +32,8 @@ const UpdateUserInfoForm = () => {
       email: currentUser?.email ?? "",
     },
     validationSchema: schemas.updateUserInfo,
-    onSubmit: (values) => {
-      handleSaveUserInfoChanges(values);
+    onSubmit: async (values) => {
+      await handleSaveUserInfoChanges(values);
     },
   });
 
@@ -38,14 +42,13 @@ const UpdateUserInfoForm = () => {
   };
 
   const handleEditButtonExit = () => {
-    formik.values.name = currentUser?.name ?? "";
-    formik.values.email = currentUser?.email ?? "";
-    formik.errors.email = "";
-    formik.errors.name = "";
+    formik.resetForm();
     setIsUserInfoEditing(false);
   };
 
-  const handleSaveUserInfoChanges = async (values: ValueInfoType) => {
+  const handleSaveUserInfoChanges = async (
+    values: ValueInfoType
+  ): Promise<void | UserType> => {
     try {
       if (!currentUser) return;
 
@@ -54,14 +57,26 @@ const UpdateUserInfoForm = () => {
         email: values.email,
       };
 
-      const updatedUser = await updateUser(
-        Number(currentUser.id),
-        updatedUserInfo
-      );
+      const currentUserData = {
+        name: currentUser.name,
+        email: currentUser.email,
+      };
+
+      if (JSON.stringify(updatedUserInfo) === JSON.stringify(currentUserData)) {
+        return setIsUserInfoEditing(false);
+      }
+
+      const updatedUser = await updateUser(currentUser.id, updatedUserInfo);
+
+      dispatch(setUser(updatedUser));
+
       console.log("User updated successfully:", updatedUser);
+
       setIsUserInfoEditing(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const errorMessage = error.response.data.message;
+      formik.setFieldError("email", errorMessage);
     }
   };
 

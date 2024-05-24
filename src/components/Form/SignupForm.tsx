@@ -1,14 +1,15 @@
 import React from "react";
 import { useFormik } from "formik";
-import { signUp } from "../http/api";
-import Button from "./Button";
-import emailIcon from "../images/Mail.svg";
-import hideIcon from "../images/Hide.svg";
+import { signUp } from "../../http/api";
+import Button from "../Button";
+import emailIcon from "../../images/Mail.svg";
+import hideIcon from "../../images/Hide.svg";
 import { useNavigate } from "react-router-dom";
-import { schemas } from "./validation";
+import { schemas } from "../validation";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/MainSlice";
-import { StyleForm, InputWrapper } from "./Form/StyledForm";
+import { setUser } from "../../store/MainSlice";
+import { StyleForm, InputWrapper } from "./StyledForm";
+import { getMe } from "../../http/api";
 
 type ValueType = {
   email: string;
@@ -27,8 +28,8 @@ const SignupForm = () => {
       repeatPassword: "",
     },
     validationSchema: schemas.signUp,
-    onSubmit: (values) => {
-      handleSignUp(values);
+    onSubmit: async (values) => {
+      await handleSignUp(values);
     },
   });
 
@@ -46,9 +47,12 @@ const SignupForm = () => {
       console.log("User created successfully:", createdUser);
 
       dispatch(setUser(createdUser.user));
+
       navigate("/");
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const errorMessage = error.response.data.message;
+      formik.setFieldError("repeatPassword", errorMessage);
     }
   };
 

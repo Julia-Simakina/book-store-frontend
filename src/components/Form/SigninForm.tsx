@@ -1,13 +1,15 @@
 import { useFormik } from "formik";
-import Button from "./Button";
-import emailIcon from "../images/Mail.svg";
-import hideIcon from "../images/Hide.svg";
+import Button from "../Button";
+import emailIcon from "../../images/Mail.svg";
+import hideIcon from "../../images/Hide.svg";
 import { useNavigate } from "react-router-dom";
-import { schemas } from "./validation";
+import { schemas } from "../validation";
 import { useDispatch } from "react-redux";
-import { signIn } from "../http/api";
-import { setUser } from "../store/MainSlice";
-import { StyleForm, InputWrapper } from "./Form/StyledForm";
+import { signIn } from "../../http/api";
+import { setUser } from "../../store/MainSlice";
+import { StyleForm, InputWrapper } from "./StyledForm";
+import { getMe } from "../../http/api";
+import { AxiosError } from "axios";
 
 type ValueType = {
   email: string;
@@ -24,8 +26,8 @@ const SigninForm: React.FC = () => {
       password: "",
     },
     validationSchema: schemas.signIn,
-    onSubmit: (values) => {
-      handleSignIn(values);
+    onSubmit: async (values) => {
+      await handleSignIn(values);
     },
   });
 
@@ -41,10 +43,17 @@ const SigninForm: React.FC = () => {
       localStorage.setItem("jwt", loginedUser.tokens.accessToken);
       console.log("User logined successfully:", loginedUser);
 
-      dispatch(setUser(loginedUser.user));
+      await dispatch(setUser(loginedUser.user));
       navigate("/");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.message;
+        if (error.status === 404) {
+          return formik.setFieldError("email", errorMessage);
+        }
+        formik.setFieldError("password", errorMessage);
+      }
     }
   };
 

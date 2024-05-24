@@ -17,7 +17,7 @@ const MainSlice = createSlice({
       state.currentUser = action.payload;
     },
 
-    logOutUser: (state, action: PayloadAction<UserType | null>) => {
+    logOutUser: (state) => {
       state.currentUser = null;
     },
   },

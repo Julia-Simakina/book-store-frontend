@@ -4,10 +4,7 @@ import Catalog from "../Catalog";
 import AuthBunner from "../AuthBunner";
 import Footer from "../Footer";
 import { useAppSelector } from "../../store/store";
-import { getMe } from "../../http/api";
-
 import StyledMainWrapper from "./StyledMainWrapper";
-import Button from "../Button";
 
 const Home: React.FC = () => {
   const myUser = useAppSelector((state) => state.main.currentUser);

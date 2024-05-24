@@ -5,7 +5,7 @@ import StyledMainWrapper from "./StyledMainWrapper";
 import Title from "../Title";
 import boyImg from "../../images/boy.svg";
 import StyledPage from "./StyledPage";
-import SignupForm from "../SignupForm";
+import SignupForm from "../Form/SignupForm";
 
 const SignUp: React.FC = () => {
   return (

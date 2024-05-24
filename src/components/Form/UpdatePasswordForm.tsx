@@ -1,16 +1,16 @@
 import { useFormik } from "formik";
-import Button from "./Button";
-import hideIcon from "../images/Hide.svg";
-import { schemas } from "./validation";
+import Button from "../Button";
+import hideIcon from "../../images/Hide.svg";
+import { schemas } from "../validation";
 import {
   InputWrapper,
   StyleForm,
   EditButton,
   TitleWrapper,
-} from "./Form/StyledForm";
+} from "./StyledForm";
 import { useState } from "react";
-import { useAppSelector } from "../store/store";
-import { comparePassword, updateUser } from "../http/api";
+import { useAppSelector } from "../../store/store";
+import { signIn, updateUser } from "../../http/api";
 
 type ValuePasswordType = {
   oldpassword: string;
@@ -35,13 +35,7 @@ const UpdatePasswordForm = () => {
   });
 
   const handleEditButtonExit = () => {
-    formik.values.oldpassword = "";
-    formik.values.password = "";
-    formik.values.repeatPassword = "";
-
-    formik.errors.oldpassword = "";
-    formik.errors.password = "";
-    formik.errors.repeatPassword = "";
+    formik.resetForm();
     setIsPasswordEditing(false);
   };
 
@@ -57,15 +51,12 @@ const UpdatePasswordForm = () => {
         password: values.password,
       };
 
-      const oldPassword = {
+      const checkUser = {
+        email: currentUser.email || "",
         password: values.oldpassword,
       };
 
-      await comparePassword(Number(currentUser.id), oldPassword);
-
-      // if (values.password !== values.repeatPassword) {
-      //   throw new Error("Repeat your password without errors");
-      // }
+      await signIn(checkUser);
 
       const updatedUser = await updateUser(Number(currentUser.id), newPassword);
       console.log("User updated successfully:", updatedUser);
@@ -75,8 +66,10 @@ const UpdatePasswordForm = () => {
       values.repeatPassword = "";
 
       setIsPasswordEditing(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const errorMessage = error.response.data.message;
+      formik.setFieldError("repeatPassword", errorMessage);
     }
   };
 
