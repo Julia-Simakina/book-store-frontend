@@ -1,15 +1,15 @@
-import { useFormik } from "formik";
-import Button from "../Button";
-import emailIcon from "../../images/Mail.svg";
-import hideIcon from "../../images/Hide.svg";
-import { useNavigate } from "react-router-dom";
-import { schemas } from "../validation";
-import { useDispatch } from "react-redux";
-import { signIn } from "../../http/api";
-import { setUser } from "../../store/MainSlice";
-import { StyleForm, InputWrapper } from "./StyledForm";
-import { getMe } from "../../http/api";
-import { AxiosError } from "axios";
+import { useFormik } from 'formik';
+import Button from '../Button';
+import emailIcon from '../../images/Mail.svg';
+import hideIcon from '../../images/Hide.svg';
+import { useNavigate } from 'react-router-dom';
+import { schemas } from '../validation';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../http/api';
+import { setUser } from '../../store/MainSlice';
+import { StyleForm, InputWrapper } from './StyledForm';
+import { AxiosError } from 'axios';
+import { updateToken } from '../../http/api';
 
 type ValueType = {
   email: string;
@@ -22,91 +22,90 @@ const SigninForm: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: ''
     },
     validationSchema: schemas.signIn,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       await handleSignIn(values);
-    },
+    }
   });
 
   const handleSignIn = async (values: ValueType) => {
     try {
       const newUser = {
         email: values.email,
-        password: values.password,
+        password: values.password
       };
 
       const loginedUser = await signIn(newUser);
+      localStorage.setItem('jwt', loginedUser.tokens.accessToken);
+      // updateToken(loginedUser.tokens.accessToken);
+      console.log('User logined successfully:', loginedUser);
 
-      localStorage.setItem("jwt", loginedUser.tokens.accessToken);
-      console.log("User logined successfully:", loginedUser);
+      dispatch(setUser(loginedUser.user));
 
-      await dispatch(setUser(loginedUser.user));
-      navigate("/");
+      navigate('/');
     } catch (error: unknown) {
       console.error(error);
       if (error instanceof AxiosError) {
         const errorMessage = error.response?.data.message;
         if (error.status === 404) {
-          return formik.setFieldError("email", errorMessage);
+          return formik.setFieldError('email', errorMessage);
         }
-        formik.setFieldError("password", errorMessage);
+        formik.setFieldError('password', errorMessage);
       }
     }
   };
 
   return (
-    <StyleForm onSubmit={formik.handleSubmit} marginTop="60px">
-      <fieldset className="auth__form-element">
-        <div className="auth__form-container">
+    <StyleForm onSubmit={formik.handleSubmit} marginTop='60px'>
+      <fieldset className='auth__form-element'>
+        <div className='auth__form-container'>
           <InputWrapper>
-            <div className="input-container">
-              <img className="input-img" src={emailIcon} alt="icon" />
-              <label className="label" htmlFor="email">
+            <div className='input-container'>
+              <img className='input-img' src={emailIcon} alt='icon' />
+              <label className='label' htmlFor='email'>
                 Email
               </label>
               <input
-                className="field"
-                name="email"
-                id="email"
-                type="email"
+                className='field'
+                name='email'
+                id='email'
+                type='email'
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
             </div>
-            {(formik.touched.email ||
-              (formik.errors.email && formik.values.email)) && (
-              <span className="error-massage ">{formik.errors.email}</span>
+            {(formik.touched.email || (formik.errors.email && formik.values.email)) && (
+              <span className='error-massage '>{formik.errors.email}</span>
             )}
           </InputWrapper>
           <InputWrapper>
-            <div className="input-container">
-              <img className="input-img" src={hideIcon} alt="icon" />
-              <label className="label" htmlFor="password">
+            <div className='input-container'>
+              <img className='input-img' src={hideIcon} alt='icon' />
+              <label className='label' htmlFor='password'>
                 Password
               </label>
               <input
-                className="field"
-                id="password"
-                name="password"
-                type="password"
+                className='field'
+                id='password'
+                name='password'
+                type='password'
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.password}
               />
             </div>
-            {(formik.touched.password ||
-              (formik.errors.password && formik.values.password)) && (
-              <span className="error-massage ">{formik.errors.password}</span>
+            {(formik.touched.password || (formik.errors.password && formik.values.password)) && (
+              <span className='error-massage '>{formik.errors.password}</span>
             )}
           </InputWrapper>
         </div>
       </fieldset>
-      <div className="auth__submit-container">
-        <Button type="submit" marginTop="60px" width="166px">
+      <div className='auth__submit-container'>
+        <Button type='submit' marginTop='60px' width='166px'>
           Log In
         </Button>
       </div>

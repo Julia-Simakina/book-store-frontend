@@ -1,13 +1,13 @@
-import axios, { AxiosResponse } from "axios";
-import { UserType } from "../types";
+import axios, { AxiosResponse } from 'axios';
+import { UserType } from '../types';
 
-const token = (): string | null => localStorage.getItem("jwt");
+const token = (): string | null => localStorage.getItem('jwt');
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: 'http://localhost:3000/',
   headers: {
-    Authorization: `Bearer ${token()}`,
-  },
+    Authorization: `Bearer ${token()}`
+  }
 });
 
 type AuthRequestBodyType = {
@@ -22,6 +22,7 @@ type ResponseLoginUserType = {
 
 type TokenType = {
   accessToken: string;
+  refreshToken: string;
 };
 
 type AuthResponseType = {
@@ -29,43 +30,51 @@ type AuthResponseType = {
   user: ResponseLoginUserType;
 };
 
-export const signUp = async (
-  data: AuthRequestBodyType
-): Promise<AuthResponseType> => {
+export const signUp = async (data: AuthRequestBodyType): Promise<AuthResponseType> => {
   try {
-    const response: AxiosResponse<AuthResponseType> = await api.post(
-      "api/auth/signup",
-      data
-    );
+    const response: AxiosResponse<AuthResponseType> = await api.post('api/auth/signup', data);
     return response.data;
   } catch (error) {
-    console.error("Error creating user: ", error);
+    console.error('Error creating user: ', error);
     throw error;
   }
 };
 
-export const signIn = async (
-  data: AuthRequestBodyType
-): Promise<AuthResponseType> => {
+export const refreshToken = async (
+  refreshToken: string
+): Promise<{ accessToken: string; refreshToken: string }> => {
   try {
-    const response: AxiosResponse<AuthResponseType> = await api.post(
-      "api/auth/signin",
-      data
+    const response = await api.post<{ accessToken: string; refreshToken: string }>(
+      'api/auth/refresh',
+      {
+        refreshToken: refreshToken
+      }
     );
-    console.log(">>>>>>> api respomnse", response.data);
+
     return response.data;
   } catch (error) {
-    console.error("Error logging in: ", error);
+    console.error('Error refresh token: ', error);
+    throw error;
+  }
+};
+
+export const signIn = async (data: AuthRequestBodyType): Promise<AuthResponseType> => {
+  try {
+    const response: AxiosResponse<AuthResponseType> = await api.post('api/auth/signin', data);
+    console.log('>>>>>>> api respomnse', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error logging in: ', error);
     throw error;
   }
 };
 
 export const getMe = async (): Promise<UserType> => {
   try {
-    const response = await api.get("api/user/getme");
+    const response = await api.get('api/user/getme');
     return response.data;
   } catch (error) {
-    console.error("Error fetching user data: ", error);
+    console.error('Error fetching user data: ', error);
     throw error;
   }
 };
@@ -78,43 +87,42 @@ export const updateUser = async (
     const response = await api.put(`api/user/${userId}`, userData);
     return response.data;
   } catch (error) {
-    console.error("Ошибка при обновлении данных пользователя по ID:", error);
+    console.error('Ошибка при обновлении данных пользователя по ID:', error);
     throw error;
   }
 };
 
 export const getUserById = async (userId: number): Promise<UserType> => {
   try {
-    const response: AxiosResponse<UserType> = await api.get(
-      `api/user/${userId}`
-    );
+    const response: AxiosResponse<UserType> = await api.get(`api/user/${userId}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user data by ID: ", error);
+    console.error('Error fetching user data by ID: ', error);
     throw error;
   }
 };
 
 export const getUsers = async (): Promise<UserType[]> => {
   try {
-    const response: AxiosResponse<UserType[]> = await api.get("api/user/all");
+    const response: AxiosResponse<UserType[]> = await api.get('api/user/all');
     return response.data;
   } catch (error) {
-    console.error("Error fetching users data: ", error);
+    console.error('Error fetching users data: ', error);
     throw error;
   }
 };
 
 export const comparePassword = async (userId: number, oldPassword: any) => {
   try {
-    const response = await api.post(
-      `api/user/${userId}/comparePassword`,
-      oldPassword
-    );
+    const response = await api.post(`api/user/${userId}/comparePassword`, oldPassword);
     return response.data;
   } catch (error) {
     throw error;
   }
+};
+
+export const updateToken = (newToken: string) => {
+  api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
 };
 
 export default api;
