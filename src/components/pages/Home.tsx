@@ -14,9 +14,9 @@ const Home: React.FC = () => {
       <StyledMainWrapper>
         <Header />
         <main>
-          <Banner />
+          {/* <Banner />
           <Catalog />
-          {!myUser && <AuthBunner />}
+          {!myUser && <AuthBunner />} */}
         </main>
       </StyledMainWrapper>
       <Footer />

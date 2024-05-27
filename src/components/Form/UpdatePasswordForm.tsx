@@ -10,7 +10,8 @@ import {
 } from "./StyledForm";
 import { useState } from "react";
 import { useAppSelector } from "../../store/store";
-import { signIn, updateUser } from "../../http/api";
+import { updateUser } from "../../http/userApi";
+import { signIn } from "../../http/authApi";
 
 type ValuePasswordType = {
   oldpassword: string;
@@ -29,8 +30,8 @@ const UpdatePasswordForm = () => {
       repeatPassword: "",
     },
     validationSchema: schemas.updatePassword,
-    onSubmit: (values) => {
-      handleSavePasswordChanges(values);
+    onSubmit: async (values) => {
+      await handleSavePasswordChanges(values);
     },
   });
 

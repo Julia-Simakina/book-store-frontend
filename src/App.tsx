@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { setUser } from './store/MainSlice';
-import { getMe } from './http/api';
-import AppRoutes from './components/routes/Routes';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { setUser } from "./store/MainSlice";
+import { getMe } from "./http/userApi";
+import AppRoutes from "./components/routes/Routes";
 
 const App: React.FC = () => {
   const [storeInitialized, setStoreInitialized] = useState(false);
   const dispatch = useDispatch();
-  // const token = localStorage.getItem("jwt");
 
   useEffect(() => {
     (async () => {
       try {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+          return;
+        }
+
         const currentUser = await getMe();
         dispatch(setUser(currentUser));
       } catch (error) {
@@ -24,7 +28,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('>>>>>>>>>>>>>', storeInitialized);
+    console.log(">>>>>>>>>>>>>", storeInitialized);
   }, [storeInitialized]);
 
   if (!storeInitialized) {

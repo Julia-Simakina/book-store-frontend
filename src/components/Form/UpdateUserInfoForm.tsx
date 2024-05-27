@@ -11,10 +11,11 @@ import {
 } from "./StyledForm";
 import { useState } from "react";
 import { useAppSelector } from "../../store/store";
-import { updateUser } from "../../http/api";
+import { updateUser } from "../../http/userApi";
 import { UserType } from "../../types";
 import { useAppDispatch } from "../../store/store";
 import { setUser } from "../../store/MainSlice";
+import userIcon from "../../images/User-profile.svg";
 
 type ValueInfoType = {
   name?: string;
@@ -69,7 +70,7 @@ const UpdateUserInfoForm = () => {
       const updatedUser = await updateUser(currentUser.id, updatedUserInfo);
 
       dispatch(setUser(updatedUser));
-
+      console.log(updatedUser);
       console.log("User updated successfully:", updatedUser);
 
       setIsUserInfoEditing(false);
@@ -97,9 +98,16 @@ const UpdateUserInfoForm = () => {
       <fieldset className="auth__form-element">
         <div className="auth__form-container">
           <InputWrapper>
-            <div className="input-container">
-              <img className="input-img" src={hideIcon} alt="icon" />
-              <label className="label" htmlFor="name">
+            <div
+              className={`input-container ${
+                formik.errors.name && "input-error"
+              }`}
+            >
+              <img className="input-img" src={userIcon} alt="icon" />
+              <label
+                className={`label ${formik.errors.name && "label-error"}`}
+                htmlFor="name"
+              >
                 Your name
               </label>
               <input
@@ -119,9 +127,15 @@ const UpdateUserInfoForm = () => {
             )}
           </InputWrapper>
           <InputWrapper>
-            <div className="input-container">
+            <div
+              className={`input-container ${
+                formik.errors.email && "input-error"
+              }`}
+            >
               <img className="input-img" src={emailIcon} alt="icon" />
-              <label className="label" htmlFor="email">
+              <label
+                className={`label ${formik.errors.email && "label-error"}`}
+              >
                 Email
               </label>
               <input

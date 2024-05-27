@@ -25,8 +25,9 @@ const Profile: React.FC = () => {
   }, [currentUser]);
 
   const handlelogOutUser = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     dispatch(logOutUser());
-    localStorage.removeItem("jwt");
     navigate("/");
   };
 

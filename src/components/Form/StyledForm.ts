@@ -30,6 +30,10 @@ export const StyleForm = styled.form<PropsType>`
 export const InputWrapper = styled.div`
   height: 75px;
 
+  .input-error {
+    outline: 2px solid #ed2e7e;
+  }
+
   .input-container {
     position: relative;
     display: flex;
@@ -80,6 +84,10 @@ export const InputWrapper = styled.div`
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
+  }
+
+  .label-error {
+    color: #c30052;
   }
 `;
 

@@ -1,128 +1,55 @@
-import axios, { AxiosResponse } from 'axios';
-import { UserType } from '../types';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 
-const token = (): string | null => localStorage.getItem('jwt');
+import { TokenType } from "./types";
+import { refreshToken } from "./authApi";
+
+const token = (): string | null => {
+  const accessToken = localStorage.getItem("accessToken");
+  return accessToken;
+};
+
+export const setTokensToStorage = (tokensPair: TokenType) => {
+  localStorage.setItem("accessToken", tokensPair.accessToken);
+  localStorage.setItem("refreshToken", tokensPair.refreshToken);
+};
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: "http://localhost:3000/api",
   headers: {
-    Authorization: `Bearer ${token()}`
-  }
+    authorization: `Bearer ${token()}`,
+  },
 });
 
-type AuthRequestBodyType = {
-  email: string;
-  password: string;
+export const resetTokens = (http: AxiosInstance) => {
+  const accessToken = `Bearer ${token()}`;
+  http.defaults.headers.authorization = accessToken;
 };
 
-type ResponseLoginUserType = {
-  id: number;
-  email: string;
-};
+export const updateAuthHeaders = () => resetTokens(api);
 
-type TokenType = {
-  accessToken: string;
-  refreshToken: string;
-};
+api.interceptors.response.use(undefined, async (error: AxiosError) => {
+  const originalRequest = error.config;
+  if (error.response?.status === 401) {
+    if (!originalRequest) {
+      throw error;
+    }
 
-type AuthResponseType = {
-  tokens: TokenType;
-  user: ResponseLoginUserType;
-};
+    const token = localStorage.getItem("refreshToken");
 
-export const signUp = async (data: AuthRequestBodyType): Promise<AuthResponseType> => {
-  try {
-    const response: AxiosResponse<AuthResponseType> = await api.post('api/auth/signup', data);
-    return response.data;
-  } catch (error) {
-    console.error('Error creating user: ', error);
-    throw error;
+    if (token) {
+      const newTokensPair = await refreshToken({ refreshToken: token });
+
+      setTokensToStorage(newTokensPair);
+
+      updateAuthHeaders();
+
+      originalRequest.headers.Authorization = `Bearer ${newTokensPair.accessToken}`;
+
+      return api(originalRequest as AxiosRequestConfig<unknown>);
+    }
   }
-};
 
-export const refreshToken = async (
-  refreshToken: string
-): Promise<{ accessToken: string; refreshToken: string }> => {
-  try {
-    const response = await api.post<{ accessToken: string; refreshToken: string }>(
-      'api/auth/refresh',
-      {
-        refreshToken: refreshToken
-      }
-    );
-
-    return response.data;
-  } catch (error) {
-    console.error('Error refresh token: ', error);
-    throw error;
-  }
-};
-
-export const signIn = async (data: AuthRequestBodyType): Promise<AuthResponseType> => {
-  try {
-    const response: AxiosResponse<AuthResponseType> = await api.post('api/auth/signin', data);
-    console.log('>>>>>>> api respomnse', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error logging in: ', error);
-    throw error;
-  }
-};
-
-export const getMe = async (): Promise<UserType> => {
-  try {
-    const response = await api.get('api/user/getme');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching user data: ', error);
-    throw error;
-  }
-};
-
-export const updateUser = async (
-  userId: number,
-  userData: Partial<UserType>
-): Promise<UserType> => {
-  try {
-    const response = await api.put(`api/user/${userId}`, userData);
-    return response.data;
-  } catch (error) {
-    console.error('Ошибка при обновлении данных пользователя по ID:', error);
-    throw error;
-  }
-};
-
-export const getUserById = async (userId: number): Promise<UserType> => {
-  try {
-    const response: AxiosResponse<UserType> = await api.get(`api/user/${userId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching user data by ID: ', error);
-    throw error;
-  }
-};
-
-export const getUsers = async (): Promise<UserType[]> => {
-  try {
-    const response: AxiosResponse<UserType[]> = await api.get('api/user/all');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching users data: ', error);
-    throw error;
-  }
-};
-
-export const comparePassword = async (userId: number, oldPassword: any) => {
-  try {
-    const response = await api.post(`api/user/${userId}/comparePassword`, oldPassword);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateToken = (newToken: string) => {
-  api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-};
+  throw error;
+});
 
 export default api;
