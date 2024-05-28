@@ -49,10 +49,11 @@ const SigninForm: React.FC = () => {
       console.error(error);
       if (error instanceof AxiosError) {
         const errorMessage = error.response?.data.message;
-        if (error.status === 404) {
-          return formik.setFieldError("email", errorMessage);
-        }
-        formik.setFieldError("password", errorMessage);
+
+        formik.setFieldError(
+          error.response?.data.path ?? "password",
+          errorMessage
+        );
       }
     }
   };
@@ -62,9 +63,18 @@ const SigninForm: React.FC = () => {
       <fieldset className="auth__form-element">
         <div className="auth__form-container">
           <InputWrapper>
-            <div className="input-container">
+            <div
+              className={`input-container ${
+                formik.touched.email && formik.errors.email && "input-error"
+              }`}
+            >
               <img className="input-img" src={emailIcon} alt="icon" />
-              <label className="label" htmlFor="email">
+              <label
+                className={`label ${
+                  formik.touched.email && formik.errors.email && "label-error"
+                }`}
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -83,9 +93,22 @@ const SigninForm: React.FC = () => {
             )}
           </InputWrapper>
           <InputWrapper>
-            <div className="input-container">
+            <div
+              className={`input-container ${
+                formik.touched.password &&
+                formik.errors.password &&
+                "input-error"
+              }`}
+            >
               <img className="input-img" src={hideIcon} alt="icon" />
-              <label className="label" htmlFor="password">
+              <label
+                className={`label ${
+                  formik.touched.password &&
+                  formik.errors.password &&
+                  "label-error"
+                }`}
+                htmlFor="password"
+              >
                 Password
               </label>
               <input

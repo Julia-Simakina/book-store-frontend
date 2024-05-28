@@ -1,20 +1,36 @@
-import React, { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
+import { uploadAvatar } from "../http/userApi";
 import axios from "axios";
+import { UserType } from "../types";
 
-interface AvatarProps {
-  imageUrl: string;
-}
+const Avatar = (props: { currentUser: UserType | null }) => {
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
 
-const Avatar: React.FC<AvatarProps> = ({ imageUrl }) => {
-  const [newImageUrl, setNewImageUrl] = useState("");
+  const currentUser = {
+    avatar: "",
+  };
 
-  const handleUpload = async (file: File) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    setSelectedAvatar(file);
+  };
+
+  const handleUpload = async (event: FormEvent) => {
+    event.preventDefault();
+
+    if (!selectedAvatar) {
+      console.log("Please select an image to upload");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("avatar", file);
+    formData.append("avatar", selectedAvatar);
+
+    //  await uploadAvatar(formData);
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/upload",
+        "http://localhost:3000/upload-avatar",
         formData,
         {
           headers: {
@@ -22,23 +38,27 @@ const Avatar: React.FC<AvatarProps> = ({ imageUrl }) => {
           },
         }
       );
+      localStorage.setItem("avatar", response.data.imagePath);
+      currentUser.avatar = `http://localhost:3000/${localStorage.getItem(
+        "avatar"
+      )}`;
+      // console.log(`http://localhost:3000/${currentAvatar}`);
 
-      setNewImageUrl(response.data.imageUrl);
+      console.log("Avatar uploaded successfully!", response.data);
     } catch (error) {
-      console.error("Error uploading avatar:", error);
+      console.error("Error uploading avatar", error);
     }
   };
 
   return (
     <div>
-      <img src={newImageUrl || imageUrl} alt="Avatar" />
-      <input
-        type="file"
-        onChange={(e) => {
-          if (!e.target.files) return;
-          handleUpload(e.target.files[0]);
-        }}
+      <img
+        // src={`http://localhost:3000/${localStorage.getItem("avatar")}`}
+        src={(props.currentUser as any).avatar}
+        alt="Current Avatar"
       />
+      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload Avatar</button>
     </div>
   );
 };

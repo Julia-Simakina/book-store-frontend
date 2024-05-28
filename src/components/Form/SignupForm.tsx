@@ -9,6 +9,7 @@ import { schemas } from "../validation";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/MainSlice";
 import { StyleForm, InputWrapper } from "./StyledForm";
+import { AxiosError } from "axios";
 
 type ValueType = {
   email: string;
@@ -47,10 +48,12 @@ const SignupForm = () => {
       dispatch(setUser(createdUser.user));
       updateAuthHeaders();
       navigate("/");
-    } catch (error: any) {
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.message;
+        formik.setFieldError(error.response?.data.path, errorMessage);
+      }
       console.error(error);
-      const errorMessage = error.response.data.message;
-      formik.setFieldError("repeatPassword", errorMessage);
     }
   };
 
@@ -59,9 +62,18 @@ const SignupForm = () => {
       <fieldset className="auth__form-element">
         <div className="auth__form-container">
           <InputWrapper>
-            <div className="input-container">
+            <div
+              className={`input-container ${
+                formik.touched.email && formik.errors.email && "input-error"
+              }`}
+            >
               <img className="input-img" src={emailIcon} alt="icon" />
-              <label className="label" htmlFor="email">
+              <label
+                className={`label ${
+                  formik.touched.email && formik.errors.email && "label-error"
+                }`}
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -80,9 +92,22 @@ const SignupForm = () => {
             )}
           </InputWrapper>
           <InputWrapper>
-            <div className="input-container">
+            <div
+              className={`input-container ${
+                formik.touched.password &&
+                formik.errors.password &&
+                "input-error"
+              }`}
+            >
               <img className="input-img" src={hideIcon} alt="icon" />
-              <label className="label" htmlFor="password">
+              <label
+                className={`label ${
+                  formik.touched.password &&
+                  formik.errors.password &&
+                  "label-error"
+                }`}
+                htmlFor="password"
+              >
                 Password
               </label>
               <input
@@ -101,9 +126,22 @@ const SignupForm = () => {
             )}
           </InputWrapper>
           <InputWrapper>
-            <div className="input-container">
+            <div
+              className={`input-container ${
+                formik.touched.repeatPassword &&
+                formik.errors.repeatPassword &&
+                "input-error"
+              }`}
+            >
               <img className="input-img" src={hideIcon} alt="icon" />
-              <label className="label" htmlFor="repeatPassword">
+              <label
+                className={`label ${
+                  formik.touched.repeatPassword &&
+                  formik.errors.repeatPassword &&
+                  "label-error"
+                }`}
+                htmlFor="repeatPassword"
+              >
                 Replay password
               </label>
               <input

@@ -6,12 +6,12 @@ import * as Yup from "yup";
 // };
 
 const email = Yup.string().email().required("Enter your email");
-
+const newpassword = Yup.string().min(5).max(30).required("Enter your password");
 const password = Yup.string().min(5).max(30).required("Enter your password");
 
 const repeatPassword = Yup.string()
   .required("Repeat your password without errors")
-  .oneOf([Yup.ref("password")], "Passwords must match");
+  .oneOf([Yup.ref("newpassword")], "Passwords must match");
 
 const name = Yup.string().min(2).max(40);
 
@@ -30,8 +30,8 @@ export const schemas = {
     email,
   }),
   updatePassword: Yup.object().shape({
-    oldpassword: password,
     password,
+    newpassword,
     repeatPassword,
   }),
 };

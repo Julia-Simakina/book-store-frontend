@@ -4,11 +4,29 @@ import api from "./api";
 
 const pathPrefix = "user";
 
+export const uploadAvatar = async (formData: any) => {
+  try {
+    const response = await api.post(
+      "http://localhost:3000/upload-avatar",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("Avatar uploaded successfully!", response.data);
+  } catch (error) {
+    console.error("Error uploading avatar", error);
+  }
+};
+
 export const getMe = async (): Promise<UserType> => {
   try {
     const response: AxiosResponse<UserType> = await api.get(
       `${pathPrefix}/getme`
     );
+    console.log("response.data >>>>>", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching user data: ", error);

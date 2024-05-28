@@ -13,6 +13,9 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UpdateUserInfoForm from "../Form/UpdateUserInfoForm";
 import UpdatePasswordForm from "../Form/UpdatePasswordForm";
+import Avatar from "../Avatar";
+
+import avatar from "../../images/fairy.svg";
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,6 +43,8 @@ const Profile: React.FC = () => {
             <ProfilePhoto src={profilePhoto} alt="Profile photo" />
             <img src={channgePhotoIcon} alt="" className="channge-photo-icon" />
           </PhotoContainer>
+
+          <Avatar currentUser={currentUser} />
 
           <UserInfo>
             <UpdateUserInfoForm />

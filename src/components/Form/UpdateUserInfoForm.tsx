@@ -16,6 +16,7 @@ import { UserType } from "../../types";
 import { useAppDispatch } from "../../store/store";
 import { setUser } from "../../store/MainSlice";
 import userIcon from "../../images/User-profile.svg";
+import { AxiosError } from "axios";
 
 type ValueInfoType = {
   name?: string;
@@ -43,7 +44,12 @@ const UpdateUserInfoForm = () => {
   };
 
   const handleEditButtonExit = () => {
+    // const { name, email } = formik.values;
     formik.resetForm();
+    formik.setValues({
+      name: currentUser?.name || "",
+      email: currentUser?.email || "",
+    });
     setIsUserInfoEditing(false);
   };
 
@@ -74,10 +80,12 @@ const UpdateUserInfoForm = () => {
       console.log("User updated successfully:", updatedUser);
 
       setIsUserInfoEditing(false);
-    } catch (error: any) {
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.message;
+        formik.setFieldError(error.response?.data.path, errorMessage);
+      }
       console.error(error);
-      const errorMessage = error.response.data.message;
-      formik.setFieldError("email", errorMessage);
     }
   };
 
@@ -100,12 +108,14 @@ const UpdateUserInfoForm = () => {
           <InputWrapper>
             <div
               className={`input-container ${
-                formik.errors.name && "input-error"
+                formik.touched.name && formik.errors.name && "input-error"
               }`}
             >
               <img className="input-img" src={userIcon} alt="icon" />
               <label
-                className={`label ${formik.errors.name && "label-error"}`}
+                className={`label ${
+                  formik.touched.name && formik.errors.name && "label-error"
+                }`}
                 htmlFor="name"
               >
                 Your name
@@ -129,12 +139,15 @@ const UpdateUserInfoForm = () => {
           <InputWrapper>
             <div
               className={`input-container ${
-                formik.errors.email && "input-error"
+                formik.touched.email && formik.errors.email && "input-error"
               }`}
             >
               <img className="input-img" src={emailIcon} alt="icon" />
               <label
-                className={`label ${formik.errors.email && "label-error"}`}
+                className={`label ${
+                  formik.touched.email && formik.errors.email && "label-error"
+                }`}
+                htmlFor="email"
               >
                 Email
               </label>

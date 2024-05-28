@@ -12,10 +12,11 @@ import { useState } from "react";
 import { useAppSelector } from "../../store/store";
 import { updateUser } from "../../http/userApi";
 import { signIn } from "../../http/authApi";
+import { AxiosError } from "axios";
 
 type ValuePasswordType = {
-  oldpassword: string;
   password: string;
+  newpassword: string;
   repeatPassword: string;
 };
 
@@ -25,8 +26,8 @@ const UpdatePasswordForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      oldpassword: "",
       password: "",
+      newpassword: "",
       repeatPassword: "",
     },
     validationSchema: schemas.updatePassword,
@@ -49,12 +50,12 @@ const UpdatePasswordForm = () => {
       if (!currentUser) throw Error("User not found");
 
       const newPassword = {
-        password: values.password,
+        password: values.newpassword,
       };
 
       const checkUser = {
         email: currentUser.email || "",
-        password: values.oldpassword,
+        password: values.password,
       };
 
       await signIn(checkUser);
@@ -62,15 +63,19 @@ const UpdatePasswordForm = () => {
       const updatedUser = await updateUser(Number(currentUser.id), newPassword);
       console.log("User updated successfully:", updatedUser);
 
-      values.oldpassword = "";
       values.password = "";
+      values.newpassword = "";
       values.repeatPassword = "";
 
       setIsPasswordEditing(false);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      const errorMessage = error.response.data.message;
-      formik.setFieldError("repeatPassword", errorMessage);
+
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.message;
+        formik.setFieldError(error.response?.data.path, errorMessage);
+      }
+      console.error(error);
     }
   };
 
@@ -91,60 +96,95 @@ const UpdatePasswordForm = () => {
       <fieldset className="auth__form-element">
         <div className="auth__form-container">
           <InputWrapper>
-            <div className="input-container">
+            <div
+              className={`input-container ${
+                formik.touched.password &&
+                formik.errors.password &&
+                "input-error"
+              }`}
+            >
               <img className="input-img" src={hideIcon} alt="icon" />
-              <label className="label" htmlFor="name">
+              <label
+                className={`label ${
+                  formik.touched.password &&
+                  formik.errors.password &&
+                  "label-error"
+                }`}
+                htmlFor="password"
+              >
                 {isPasswordEditing ? "Old password" : "You Password"}
               </label>
               <input
                 className="field"
-                id="oldpassword"
-                name="oldpassword"
+                id="password"
+                name="password"
                 type="password"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                value={
-                  !isPasswordEditing ? "*******" : formik.values.oldpassword
-                }
+                value={!isPasswordEditing ? "*******" : formik.values.password}
                 disabled={!isPasswordEditing}
               />
             </div>
-            {(formik.touched.oldpassword ||
-              (formik.errors.oldpassword && formik.values.oldpassword)) && (
-              <span className="error-massage ">
-                {formik.errors.oldpassword}
-              </span>
+            {(formik.touched.password ||
+              (formik.errors.password && formik.values.password)) && (
+              <span className="error-massage ">{formik.errors.password}</span>
             )}
           </InputWrapper>
           {isPasswordEditing && (
             <>
               <InputWrapper>
-                <div className="input-container">
+                <div
+                  className={`input-container ${
+                    formik.touched.newpassword &&
+                    formik.errors.newpassword &&
+                    "input-error"
+                  }`}
+                >
                   <img className="input-img" src={hideIcon} alt="icon" />
-                  <label className="label" htmlFor="password">
+                  <label
+                    className={`label ${
+                      formik.touched.newpassword &&
+                      formik.errors.newpassword &&
+                      "label-error"
+                    }`}
+                    htmlFor="newpassword"
+                  >
                     New password
                   </label>
                   <input
                     className="field"
-                    name="password"
-                    id="password"
+                    name="newpassword"
+                    id="newpassword"
                     type="password"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    value={formik.values.password}
+                    value={formik.values.newpassword}
                   />
                 </div>
-                {(formik.touched.password ||
-                  (formik.errors.password && formik.values.password)) && (
+                {(formik.touched.newpassword ||
+                  (formik.errors.newpassword && formik.values.newpassword)) && (
                   <span className="error-massage ">
-                    {formik.errors.password}
+                    {formik.errors.newpassword}
                   </span>
                 )}
               </InputWrapper>
               <InputWrapper>
-                <div className="input-container">
+                <div
+                  className={`input-container ${
+                    formik.touched.repeatPassword &&
+                    formik.errors.repeatPassword &&
+                    "input-error"
+                  }`}
+                >
                   <img className="input-img" src={hideIcon} alt="icon" />
-                  <label className="label" htmlFor="repeatPassword">
+                  <label
+                    className={`label ${
+                      formik.touched.repeatPassword &&
+                      formik.errors.repeatPassword &&
+                      "label-error"
+                    }`}
+                    htmlFor="repeatPassword"
+                  >
                     Repeat password
                   </label>
                   <input
