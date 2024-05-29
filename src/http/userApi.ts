@@ -4,18 +4,20 @@ import api from "./api";
 
 const pathPrefix = "user";
 
-export const uploadAvatar = async (formData: any) => {
+export const uploadAvatar = async (formData: string) => {
   try {
     const response = await api.post(
-      "http://localhost:3000/upload-avatar",
-      formData,
+      "/user/upload-avatar",
+      // formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        // },
+        image: formData,
       }
     );
     console.log("Avatar uploaded successfully!", response.data);
+    return response.data;
   } catch (error) {
     console.error("Error uploading avatar", error);
   }

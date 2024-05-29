@@ -1,50 +1,37 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { uploadAvatar } from "../http/userApi";
-import axios from "axios";
 import { UserType } from "../types";
 
 const Avatar = (props: { currentUser: UserType | null }) => {
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+  const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
 
   const currentUser = {
     avatar: "",
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files ? event.target.files[0] : null;
-    setSelectedAvatar(file);
-  };
-
-  const handleUpload = async (event: FormEvent) => {
-    event.preventDefault();
-
-    if (!selectedAvatar) {
-      console.log("Please select an image to upload");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("avatar", selectedAvatar);
-
-    //  await uploadAvatar(formData);
-
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/upload-avatar",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      localStorage.setItem("avatar", response.data.imagePath);
-      currentUser.avatar = `http://localhost:3000/${localStorage.getItem(
-        "avatar"
-      )}`;
-      // console.log(`http://localhost:3000/${currentAvatar}`);
+      const file = event.target.files ? event.target.files[0] : null;
 
-      console.log("Avatar uploaded successfully!", response.data);
+      if (file) {
+        setSelectedAvatar(file);
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          setPreviewAvatar(reader.result as string);
+          const avatarData = await uploadAvatar(reader.result as string);
+
+          console.log("avatarData >>>", avatarData);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setPreviewAvatar(null);
+      }
+
+      if (!selectedAvatar) {
+        console.log("Please select an image to upload");
+        return;
+      }
     } catch (error) {
       console.error("Error uploading avatar", error);
     }
@@ -53,12 +40,12 @@ const Avatar = (props: { currentUser: UserType | null }) => {
   return (
     <div>
       <img
-        // src={`http://localhost:3000/${localStorage.getItem("avatar")}`}
-        src={(props.currentUser as any).avatar}
+        src={previewAvatar || ""}
+        // src={(props.currentUser as any).avatar}
         alt="Current Avatar"
       />
       <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload Avatar</button>
+      {/* <button onClick={handleUpload}>Upload Avatar</button> */}
     </div>
   );
 };

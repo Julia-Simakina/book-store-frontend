@@ -4,6 +4,7 @@ export type UserType = {
   email?: string;
   password?: string;
   fullName?: null | string;
+  avatar?: null | string;
   dateOfBirth?: null | string;
   deletedAt?: null | Date;
   createdAt?: string;
