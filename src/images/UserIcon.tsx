@@ -1,4 +1,5 @@
-
+const UserIcon = () => {
+  return (
     <svg
       width="24"
       height="24"
@@ -21,3 +22,7 @@
         stroke-linejoin="round"
       />
     </svg>
+  );
+};
+
+export default UserIcon;

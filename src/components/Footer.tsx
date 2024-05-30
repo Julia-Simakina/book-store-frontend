@@ -80,6 +80,10 @@ const MenuList = styled.ul`
 
   .menu__list-item {
     text-decoration: none;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 `;
 export default Footer;

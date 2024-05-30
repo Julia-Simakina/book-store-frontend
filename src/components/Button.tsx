@@ -1,8 +1,9 @@
+import { JSXElementConstructor, ReactSVG, ReactSVGElement } from "react";
 import styled from "styled-components";
 
 type ButtonPropsType = {
   onClick?: () => void;
-  children: string;
+  children: string | ReactSVG;
   backgroundColor?: string;
   width?: string;
   color?: string;

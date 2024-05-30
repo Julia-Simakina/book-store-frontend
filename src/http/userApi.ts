@@ -4,15 +4,11 @@ import api from "./api";
 
 const pathPrefix = "user";
 
-export const uploadAvatar = async (formData: string) => {
+export const uploadAvatar = async (formData: string): Promise<UserType> => {
   try {
-    const response = await api.post(
-      "/user/upload-avatar",
-      // formData,
+    const response: AxiosResponse<UserType> = await api.post(
+      `${pathPrefix}/upload-avatar`,
       {
-        // headers: {
-        //   "Content-Type": "multipart/form-data",
-        // },
         image: formData,
       }
     );
@@ -20,6 +16,7 @@ export const uploadAvatar = async (formData: string) => {
     return response.data;
   } catch (error) {
     console.error("Error uploading avatar", error);
+    throw error;
   }
 };
 

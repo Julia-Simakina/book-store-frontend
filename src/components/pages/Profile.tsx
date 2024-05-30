@@ -3,25 +3,21 @@ import styled from "styled-components";
 import Footer from "../Footer";
 import StyledPage from "./StyledPage";
 import StyledMainWrapper from "./StyledMainWrapper";
-import profilePhoto from "../../images/unsplash_WNoLnJo7tS8.png";
-import channgePhotoIcon from "../../images/button_photo.svg";
 import Button from "../Button";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../store/store";
 import { logOutUser } from "../../store/MainSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UpdateUserInfoForm from "../Form/UpdateUserInfoForm";
 import UpdatePasswordForm from "../Form/UpdatePasswordForm";
-import Avatar from "../Avatar";
-
-import avatar from "../../images/fairy.svg";
+import Avatar from "../Avatar/Avatar";
+import { useCurrentUser } from "../../ hooks";
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const currentUser = useAppSelector((state) => state.main.currentUser);
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     console.log("currentUser", currentUser);
@@ -39,13 +35,7 @@ const Profile: React.FC = () => {
       <StyledMainWrapper>
         <Header />
         <StyledPageContainer>
-          <PhotoContainer>
-            <ProfilePhoto src={profilePhoto} alt="Profile photo" />
-            <img src={channgePhotoIcon} alt="" className="channge-photo-icon" />
-          </PhotoContainer>
-
-          <Avatar currentUser={currentUser} />
-
+          <Avatar />
           <UserInfo>
             <UpdateUserInfoForm />
             <UpdatePasswordForm />
@@ -93,31 +83,31 @@ const UserInfo = styled.div`
   }
 `;
 
-const PhotoContainer = styled.div`
-  width: 305px;
-  position: relative;
-  cursor: pointer;
+// const PhotoContainer = styled.div`
+//   width: 305px;
+//   position: relative;
+//   cursor: pointer;
 
-  &:hover .channge-photo-icon {
-    opacity: 1;
-  }
-  .channge-photo-icon {
-    transition: all 0.2s ease;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 48px;
-    height: 48px;
-    opacity: 0.5;
-  }
-`;
+//   &:hover .channge-photo-icon {
+//     opacity: 1;
+//   }
+//   .channge-photo-icon {
+//     transition: all 0.2s ease;
+//     position: absolute;
+//     bottom: 20px;
+//     right: 20px;
+//     width: 48px;
+//     height: 48px;
+//     opacity: 0.5;
+//   }
+// `;
 
-const ProfilePhoto = styled.img`
-  width: 305px;
-  height: 305px;
-  object-fit: cover;
-  overflow: hidden;
-  border-radius: 16px;
-`;
+// const ProfilePhoto = styled.img`
+//   width: 305px;
+//   height: 305px;
+//   object-fit: cover;
+//   overflow: hidden;
+//   border-radius: 16px;
+// `;
 
 export default Profile;

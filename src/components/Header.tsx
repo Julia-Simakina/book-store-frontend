@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 import search from "../images/search.svg";
 import { useAppSelector } from "../store/store";
+import UserIcon from "../images/UserIcon";
 
 const Header: React.FC = () => {
   const currentUser = useAppSelector((state) => state.main.currentUser);
@@ -21,7 +22,10 @@ const Header: React.FC = () => {
         </InputContainer>
       </Flex>
       {currentUser ? (
-        <p>Здесь иконки профиля и корзины</p>
+        <>
+          <p>Здесь иконки профиля и корзины</p>
+          {/* <Button>{UserIcon}</Button> */}
+        </>
       ) : (
         <ButtonContainer>
           <Link to="/signin">

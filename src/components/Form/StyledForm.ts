@@ -79,7 +79,7 @@ export const InputWrapper = styled.div`
   }
 
   .error-massage {
-    color: #344966;
+    color: #c30052;
     margin-top: 10px;
     font-size: 14px;
     font-weight: 400;

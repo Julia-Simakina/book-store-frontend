@@ -9,7 +9,7 @@ import {
   EditButton,
   TitleWrapper,
 } from "./StyledForm";
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../store/store";
 import { updateUser } from "../../http/userApi";
 import { UserType } from "../../types";
@@ -17,6 +17,7 @@ import { useAppDispatch } from "../../store/store";
 import { setUser } from "../../store/MainSlice";
 import userIcon from "../../images/User-profile.svg";
 import { AxiosError } from "axios";
+import { useCurrentUser } from "../../ hooks";
 
 type ValueInfoType = {
   name?: string;
@@ -26,12 +27,12 @@ type ValueInfoType = {
 const UpdateUserInfoForm = () => {
   const dispatch = useAppDispatch();
   const [isUserInfoEditing, setIsUserInfoEditing] = useState(false);
-  const currentUser = useAppSelector((state) => state.main.currentUser);
+  const currentUser = useCurrentUser();
 
   const formik = useFormik({
     initialValues: {
-      name: currentUser?.name ?? "",
-      email: currentUser?.email ?? "",
+      name: currentUser.name ?? "",
+      email: currentUser.email ?? "",
     },
     validationSchema: schemas.updateUserInfo,
     onSubmit: async (values) => {
@@ -44,11 +45,11 @@ const UpdateUserInfoForm = () => {
   };
 
   const handleEditButtonExit = () => {
-    // const { name, email } = formik.values;
-    formik.resetForm();
-    formik.setValues({
-      name: currentUser?.name || "",
-      email: currentUser?.email || "",
+    formik.resetForm({
+      values: {
+        name: currentUser.name || "",
+        email: currentUser.email,
+      },
     });
     setIsUserInfoEditing(false);
   };
@@ -57,8 +58,6 @@ const UpdateUserInfoForm = () => {
     values: ValueInfoType
   ): Promise<void | UserType> => {
     try {
-      if (!currentUser) return;
-
       const updatedUserInfo = {
         name: values.name || "",
         email: values.email,

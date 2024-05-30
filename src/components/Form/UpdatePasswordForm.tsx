@@ -9,10 +9,10 @@ import {
   TitleWrapper,
 } from "./StyledForm";
 import { useState } from "react";
-import { useAppSelector } from "../../store/store";
 import { updateUser } from "../../http/userApi";
 import { signIn } from "../../http/authApi";
 import { AxiosError } from "axios";
+import { useCurrentUser } from "../../ hooks";
 
 type ValuePasswordType = {
   password: string;
@@ -22,7 +22,7 @@ type ValuePasswordType = {
 
 const UpdatePasswordForm = () => {
   const [isPasswordEditing, setIsPasswordEditing] = useState(false);
-  const currentUser = useAppSelector((state) => state.main.currentUser);
+  const currentUser = useCurrentUser();
 
   const formik = useFormik({
     initialValues: {
@@ -47,8 +47,6 @@ const UpdatePasswordForm = () => {
 
   const handleSavePasswordChanges = async (values: ValuePasswordType) => {
     try {
-      if (!currentUser) throw Error("User not found");
-
       const newPassword = {
         password: values.newpassword,
       };

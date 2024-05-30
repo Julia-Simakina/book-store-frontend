@@ -5,8 +5,8 @@ import * as Yup from "yup";
 //   email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9]+$/,
 // };
 
-const email = Yup.string().email().required("Enter your email");
-const newpassword = Yup.string().min(5).max(30).required("Enter your password");
+const email = Yup.string().min(3).email().required("Enter your email");
+// const newpassword = Yup.string().min(5).max(30).required("Enter your password");
 const password = Yup.string().min(5).max(30).required("Enter your password");
 
 const repeatPassword = Yup.string()
@@ -31,7 +31,7 @@ export const schemas = {
   }),
   updatePassword: Yup.object().shape({
     password,
-    newpassword,
+    newpassword: password,
     repeatPassword,
   }),
 };
