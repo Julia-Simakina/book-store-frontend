@@ -9,23 +9,19 @@ import SigninForm from "../Form/SigninForm";
 
 const SignIn: React.FC = () => {
   return (
-    <StyledPage>
-      <StyledMainWrapper>
-        <Header />
-        <StyledPageContainer>
-          <div>
-            <Title>Log In</Title>
-            <SigninForm />
-          </div>
-          <img
-            src={boyImg}
-            alt="The boy is reading"
-            className="background-image"
-          />
-        </StyledPageContainer>
-      </StyledMainWrapper>
-      <Footer />
-    </StyledPage>
+    // <StyledPage>
+    //   <StyledMainWrapper>
+    //     <Header />
+    <StyledPageContainer>
+      <div>
+        <Title>Log In</Title>
+        <SigninForm />
+      </div>
+      <img src={boyImg} alt="The boy is reading" className="background-image" />
+    </StyledPageContainer>
+    //   </StyledMainWrapper>
+    //   <Footer />
+    // </StyledPage>
   );
 };
 

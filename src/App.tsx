@@ -4,6 +4,10 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./store/MainSlice";
 import { getMe } from "./http/userApi";
 import AppRoutes from "./components/routes/Routes";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Title from "./components/Title";
+import PageContainer from "./shared/ui/StyledPage";
 
 const App: React.FC = () => {
   const [storeInitialized, setStoreInitialized] = useState(false);
@@ -27,17 +31,16 @@ const App: React.FC = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log(">>>>>>>>>>>>>", storeInitialized);
-  }, [storeInitialized]);
-
-  if (!storeInitialized) {
-    return <p>Loading...</p>;
-  }
+  // if (!storeInitialized) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <AppWrapper>
-      <AppRoutes />
+      <PageContainer FooterSlot={Footer}>
+        <Header />
+        {storeInitialized ? <AppRoutes /> : <Title>Loading...</Title>}
+      </PageContainer>
     </AppWrapper>
   );
 };

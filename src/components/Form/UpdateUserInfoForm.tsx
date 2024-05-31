@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import Button from "../Button";
 import emailIcon from "../../images/Mail.svg";
-import hideIcon from "../../images/Hide.svg";
 import { schemas } from "../validation";
 import {
   InputWrapper,
@@ -9,8 +8,7 @@ import {
   EditButton,
   TitleWrapper,
 } from "./StyledForm";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useAppSelector } from "../../store/store";
+import { useState } from "react";
 import { updateUser } from "../../http/userApi";
 import { UserType } from "../../types";
 import { useAppDispatch } from "../../store/store";

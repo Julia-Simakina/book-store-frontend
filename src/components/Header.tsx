@@ -5,6 +5,8 @@ import logo from "../images/logo.svg";
 import search from "../images/search.svg";
 import { useAppSelector } from "../store/store";
 import UserIcon from "../images/UserIcon";
+import CartIcon from "../images/CartIcon";
+import HeartIcon from "../images/HeartIcon";
 
 const Header: React.FC = () => {
   const currentUser = useAppSelector((state) => state.main.currentUser);
@@ -15,26 +17,49 @@ const Header: React.FC = () => {
         <Logo src={logo} />
       </Link>
       <Flex>
-        <CatalogLink href="/#catalog">Catalog</CatalogLink>
-        <InputContainer>
-          <SearchImg src={search} alt="Search icon" />
-          <Input type="text" placeholder="Search" />
-        </InputContainer>
+        <a className="catalog-link" href="/#catalog">
+          Catalog
+        </a>
+        <div className="input-container">
+          <img
+            src={search}
+            alt="Search icon"
+            className="input-container__image"
+          />
+          <input
+            className="input-container__field"
+            type="text"
+            placeholder="Search"
+          />
+        </div>
       </Flex>
       {currentUser ? (
-        <>
-          <p>Здесь иконки профиля и корзины</p>
-          {/* <Button>{UserIcon}</Button> */}
-        </>
+        <div className="user-bar">
+          <Link to="/cart">
+            <Button borderRadius="50%" width="48px">
+              <CartIcon />
+            </Button>
+          </Link>
+
+          <Button borderRadius="50%" width="48px">
+            <HeartIcon />
+          </Button>
+
+          <Link to="/profile">
+            <Button borderRadius="50%" width="48px">
+              <UserIcon stroke="#F0F4EF" />
+            </Button>
+          </Link>
+        </div>
       ) : (
-        <ButtonContainer>
+        <div className="button-container">
           <Link to="/signin">
             <Button width="110px">Log In</Button>
           </Link>
           <Link to="/signup">
             <Button width={"110px"}>Sing Up</Button>
           </Link>
-        </ButtonContainer>
+        </div>
       )}
     </StyledHeader>
   );
@@ -45,6 +70,58 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+
+  .catalog-link {
+    margin: 0 43px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: #000000;
+    text-decoration: none;
+  }
+
+  .input-container {
+    display: flex;
+    height: 64px;
+    width: 630px;
+    border-radius: 16px;
+    background-color: #f0f4ef;
+    align-items: center;
+    transition: border 0.3s;
+
+    &:focus-within {
+      outline: 2px solid #0d1821;
+    }
+  }
+
+  .input-container__image {
+    width: 24px;
+    margin: 22px;
+  }
+  .input-container__field {
+    background-color: inherit;
+    width: 550px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+
+    ::placeholder {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 400;
+      color: #b9bac3;
+    }
+  }
+  .user-bar {
+    display: flex;
+    gap: 27px;
+  }
+
+  .button-container {
+    display: flex;
+    gap: 10px;
+    margin-left: 15px;
+  }
 `;
 
 const Logo = styled.img`
@@ -55,55 +132,6 @@ const Logo = styled.img`
 const Flex = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const CatalogLink = styled.a`
-  margin: 0 43px;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  color: #000000;
-  text-decoration: none;
-`;
-
-const SearchImg = styled.img`
-  width: 24px;
-  margin: 22px;
-`;
-
-const Input = styled.input`
-  background-color: inherit;
-  width: 550px;
-  border: none;
-  outline: none;
-  font-size: 18px;
-
-  ::placeholder {
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    color: #b9bac3;
-  }
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  height: 64px;
-  width: 630px;
-  border-radius: 16px;
-  background-color: #f0f4ef;
-  align-items: center;
-  transition: border 0.3s;
-
-  &:focus-within {
-    outline: 2px solid #0d1821;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-left: 15px;
 `;
 
 export default Header;

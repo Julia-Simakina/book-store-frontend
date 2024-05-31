@@ -5,6 +5,8 @@ import { uploadAvatar } from "../../http/userApi";
 import { setUser } from "../../store/MainSlice";
 import defaultUserPhoto from "../../images/default-user-photo.svg";
 
+const validImageExtensions = ["jpeg", "jpg", "png", "gif"];
+
 export const useAvatar = () => {
   const dispatch = useAppDispatch();
   const currentUser = useCurrentUser();
@@ -18,7 +20,17 @@ export const useAvatar = () => {
 
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const userWithNewAvatar = await uploadAvatar(reader.result as string);
+        const result = reader.result as string;
+
+        const bs64payload = result?.split("image/")[1];
+
+        const extension = bs64payload.split(";")[0];
+
+        if (!validImageExtensions.includes(extension)) {
+          return console.error("Incorrect extension");
+        }
+
+        const userWithNewAvatar = await uploadAvatar(result);
         dispatch(setUser(userWithNewAvatar));
       };
       reader.readAsDataURL(file);

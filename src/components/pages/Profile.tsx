@@ -31,26 +31,26 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <StyledPage>
-      <StyledMainWrapper>
-        <Header />
-        <StyledPageContainer>
-          <Avatar />
-          <UserInfo>
-            <UpdateUserInfoForm />
-            <UpdatePasswordForm />
-            <Button
-              backgroundColor="grey"
-              marginTop="40px"
-              onClick={handlelogOutUser}
-            >
-              Log out
-            </Button>
-          </UserInfo>
-        </StyledPageContainer>
-      </StyledMainWrapper>
-      <Footer />
-    </StyledPage>
+    // <StyledPage>
+    //   <StyledMainWrapper>
+    //     <Header />
+    <StyledPageContainer>
+      <Avatar />
+      <UserInfo>
+        <UpdateUserInfoForm />
+        <UpdatePasswordForm />
+        <Button
+          backgroundColor="grey"
+          marginTop="40px"
+          onClick={handlelogOutUser}
+        >
+          Log out
+        </Button>
+      </UserInfo>
+    </StyledPageContainer>
+    //   </StyledMainWrapper>
+    //   <Footer />
+    // </StyledPage>
   );
 };
 
@@ -59,7 +59,6 @@ const StyledPageContainer = styled.main`
   align-items: start;
   margin: 90px auto 55px;
   gap: 128px;
-  /* justify-content: space-between; */
 `;
 
 const UserInfo = styled.div`

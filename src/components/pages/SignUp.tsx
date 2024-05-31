@@ -9,23 +9,13 @@ import SignupForm from "../Form/SignupForm";
 
 const SignUp: React.FC = () => {
   return (
-    <StyledPage>
-      <StyledMainWrapper>
-        <Header />
-        <StyledPageContainer>
-          <div>
-            <Title>Sign Up</Title>
-            <SignupForm />
-          </div>
-          <img
-            src={boyImg}
-            alt="The boy is reading"
-            className="background-image"
-          />
-        </StyledPageContainer>
-      </StyledMainWrapper>
-      <Footer />
-    </StyledPage>
+    <StyledPageContainer>
+      <div>
+        <Title>Sign Up</Title>
+        <SignupForm />
+      </div>
+      <img src={boyImg} alt="The boy is reading" className="background-image" />
+    </StyledPageContainer>
   );
 };
 
