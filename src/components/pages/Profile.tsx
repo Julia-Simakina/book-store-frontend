@@ -1,8 +1,4 @@
-import Header from "../Header";
 import styled from "styled-components";
-import Footer from "../Footer";
-import StyledPage from "./StyledPage";
-import StyledMainWrapper from "./StyledMainWrapper";
 import Button from "../Button";
 import { useDispatch } from "react-redux";
 import { logOutUser } from "../../store/MainSlice";
@@ -31,26 +27,16 @@ const Profile: React.FC = () => {
   };
 
   return (
-    // <StyledPage>
-    //   <StyledMainWrapper>
-    //     <Header />
     <StyledPageContainer>
       <Avatar />
       <UserInfo>
         <UpdateUserInfoForm />
         <UpdatePasswordForm />
-        <Button
-          backgroundColor="grey"
-          marginTop="40px"
-          onClick={handlelogOutUser}
-        >
+        <Button backgroundColor='grey' marginTop='40px' onClick={handlelogOutUser}>
           Log out
         </Button>
       </UserInfo>
     </StyledPageContainer>
-    //   </StyledMainWrapper>
-    //   <Footer />
-    // </StyledPage>
   );
 };
 
@@ -81,32 +67,5 @@ const UserInfo = styled.div`
     gap: 20px;
   }
 `;
-
-// const PhotoContainer = styled.div`
-//   width: 305px;
-//   position: relative;
-//   cursor: pointer;
-
-//   &:hover .channge-photo-icon {
-//     opacity: 1;
-//   }
-//   .channge-photo-icon {
-//     transition: all 0.2s ease;
-//     position: absolute;
-//     bottom: 20px;
-//     right: 20px;
-//     width: 48px;
-//     height: 48px;
-//     opacity: 0.5;
-//   }
-// `;
-
-// const ProfilePhoto = styled.img`
-//   width: 305px;
-//   height: 305px;
-//   object-fit: cover;
-//   overflow: hidden;
-//   border-radius: 16px;
-// `;
 
 export default Profile;

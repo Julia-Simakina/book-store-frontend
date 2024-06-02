@@ -16,46 +16,14 @@ const StyledBookCardList = styled.div`
 const BookCardList: React.FC = () => {
   return (
     <StyledBookCardList>
-      <BookCard
-        src={book1}
-        title={"Book of Fairy Tales"}
-        author={"Angela Carter"}
-      />
-      <BookCard
-        src={book2}
-        title={"The Two towers"}
-        author={"J. R. R. Tolkien"}
-      />
-      <BookCard
-        src={book1}
-        title={"Book of Fairy Tales"}
-        author={"Angela Carter"}
-      />
-      <BookCard
-        src={book2}
-        title={"The Two towers"}
-        author={"J. R. R. Tolkien"}
-      />
-      <BookCard
-        src={book1}
-        title={"Book of Fairy Tales"}
-        author={"Angela Carter"}
-      />
-      <BookCard
-        src={book2}
-        title={"The Two towers"}
-        author={"J. R. R. Tolkien"}
-      />
-      <BookCard
-        src={book1}
-        title={"Book of Fairy Tales"}
-        author={"Angela Carter"}
-      />
-      <BookCard
-        src={book2}
-        title={"The Two towers"}
-        author={"J. R. R. Tolkien"}
-      />
+      <BookCard src={book1} title={"Book of Fairy Tales"} author={"Angela Carter"} />
+      <BookCard src={book2} title={"The Two towers"} author={"J. R. R. Tolkien"} />
+      <BookCard src={book1} title={"Book of Fairy Tales"} author={"Angela Carter"} />
+      <BookCard src={book2} title={"The Two towers"} author={"J. R. R. Tolkien"} />
+      <BookCard src={book1} title={"Book of Fairy Tales"} author={"Angela Carter"} />
+      <BookCard src={book2} title={"The Two towers"} author={"J. R. R. Tolkien"} />
+      <BookCard src={book1} title={"Book of Fairy Tales"} author={"Angela Carter"} />
+      <BookCard src={book2} title={"The Two towers"} author={"J. R. R. Tolkien"} />
     </StyledBookCardList>
   );
 };

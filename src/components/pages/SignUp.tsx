@@ -1,10 +1,6 @@
 import styled from "styled-components";
-import Header from "../Header";
-import Footer from "../Footer";
-import StyledMainWrapper from "./StyledMainWrapper";
 import Title from "../Title";
 import boyImg from "../../images/boy.svg";
-import StyledPage from "./StyledPage";
 import SignupForm from "../Form/SignupForm";
 
 const SignUp: React.FC = () => {
@@ -14,7 +10,7 @@ const SignUp: React.FC = () => {
         <Title>Sign Up</Title>
         <SignupForm />
       </div>
-      <img src={boyImg} alt="The boy is reading" className="background-image" />
+      <img src={boyImg} alt='The boy is reading' className='background-image' />
     </StyledPageContainer>
   );
 };

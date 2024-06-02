@@ -6,9 +6,29 @@ import castle from "../images/castle.svg";
 import fairy from "../images/fairy.svg";
 import { Link } from "react-router-dom";
 
+const AuthBunner: React.FC = () => {
+  return (
+    <StyledAuthBanner>
+      <img className='fairy-img' src={fairy} alt='Fairy' />
+      <img className='castle-img' src={castle} alt='Castle' />
+      <TitleContainer>
+        <Title>Authorize now</Title>
+        <SubTitle>Authorize now and discover the fabulous world of books</SubTitle>
+        <div className='button-container'>
+          <Link to='/signin'>
+            <Button width={"110px"}>Log In</Button>
+          </Link>
+          <Link to='/signup'>
+            <Button width={"110px"}>Sing Up</Button>
+          </Link>
+        </div>
+      </TitleContainer>
+    </StyledAuthBanner>
+  );
+};
+
 const StyledAuthBanner = styled.section`
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: end;
@@ -18,22 +38,22 @@ const StyledAuthBanner = styled.section`
   margin: 80px auto;
   border-radius: 16px;
   z-index: 5;
-`;
 
-const FairyImg = styled.img`
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 478px;
-  z-index: -1;
-`;
+  .fairy-img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 478px;
+    z-index: -1;
+  }
 
-const CastleImg = styled.img`
-  position: absolute;
-  left: 108px;
-  bottom: 0;
-  width: 521px;
-  z-index: -1;
+  .castle-img {
+    position: absolute;
+    left: 108px;
+    bottom: 0;
+    width: 521px;
+    z-index: -1;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -49,26 +69,4 @@ const TitleContainer = styled.div`
   }
 `;
 
-const AuthBunner: React.FC = () => {
-  return (
-    <StyledAuthBanner>
-      <FairyImg src={fairy} alt="Fairy" />
-      <CastleImg src={castle} alt="Castle" />
-      <TitleContainer>
-        <Title>Authorize now</Title>
-        <SubTitle>
-          Authorize now and discover the fabulous world of books
-        </SubTitle>
-        <div className="button-container">
-          <Link to="/signin">
-            <Button width={"110px"}>Log In</Button>
-          </Link>
-          <Link to="/signup">
-            <Button width={"110px"}>Sing Up</Button>
-          </Link>
-        </div>
-      </TitleContainer>
-    </StyledAuthBanner>
-  );
-};
 export default AuthBunner;

@@ -8,12 +8,12 @@ import Button from "./Button";
 const Banner: React.FC = () => {
   return (
     <StyledBanner>
-      <BooksImg src={books} alt="Books" />
-      <GirlImg src={girl} alt="The girl is reading" />
+      <img className='books-img' src={books} alt='Books' />
+      <img className='girl-img' src={girl} alt='The girl is reading' />
       <TitleContainer>
         <Title>Build your library with us</Title>
         <SubTitle>Buy two books and get one for free</SubTitle>
-        <Button marginTop="50px">Choose a book</Button>
+        <Button marginTop='50px'>Choose a book</Button>
       </TitleContainer>
     </StyledBanner>
   );
@@ -30,22 +30,22 @@ const StyledBanner = styled.section`
   margin: 40px auto;
   border-radius: 16px;
   z-index: 5;
-`;
 
-const BooksImg = styled.img`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 542px;
-  z-index: -1;
-`;
+  .books-img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 542px;
+    z-index: -1;
+  }
 
-const GirlImg = styled.img`
-  position: absolute;
-  right: 98px;
-  bottom: 0;
-  width: 406px;
-  z-index: -1;
+  .girl-img {
+    position: absolute;
+    right: 98px;
+    bottom: 0;
+    width: 406px;
+    z-index: -1;
+  }
 `;
 
 const TitleContainer = styled.div`

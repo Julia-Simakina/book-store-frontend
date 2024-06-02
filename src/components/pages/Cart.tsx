@@ -8,15 +8,13 @@ import Button from "../Button";
 const Cart: React.FC = () => {
   return (
     <StyledPageContainer>
-      <img src={books} alt="" />
+      <img src={books} alt='Books' />
 
       <TitleContainer>
         <Title>Your cart is empty</Title>
-        <SubTitle>
-          Add items to cart to make a purchase. Go to the catalogue no.
-        </SubTitle>
-        <div className="button-container">
-          <Link to="/signin">
+        <SubTitle>Add items to cart to make a purchase. Go to the catalogue no.</SubTitle>
+        <div className='button-container'>
+          <Link to='/signin'>
             <Button>Go to catalog</Button>
           </Link>
         </div>

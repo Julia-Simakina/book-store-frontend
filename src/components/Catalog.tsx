@@ -2,39 +2,25 @@ import styled from "styled-components";
 import SectionTitle from "./SectionTitle";
 import Dropdown from "./Dropdown";
 import RangeSlider from "./RangeSlider";
-import BookCardList from "./books/BookCardList";
-
-const StyledCatalog = styled.section`
-  margin-top: 110px;
-`;
-
-const FilterPanel = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  .dropdown-container {
-    display: flex;
-    gap: 20px;
-  }
-`;
+import BookCardList from "./Books/BookCardList";
 
 const Catalog: React.FC = () => {
   return (
-    <StyledCatalog id="catalog">
-      <FilterPanel>
+    <StyledCatalog id='catalog'>
+      <div className='filter-panel'>
         <SectionTitle />
-        <div className="dropdown-container">
+        <div className='dropdown-container'>
           <Dropdown name={"Genre"}>
             <li>
-              <input type="checkbox" id="opt1" />
+              <input type='checkbox' id='opt1' />
               <label>Fiction</label>
             </li>
             <li>
-              <input type="checkbox" id="opt2" />
+              <input type='checkbox' id='opt2' />
               <label>Non—fiction</label>
             </li>
             <li>
-              <input type="checkbox" id="opt3" />
+              <input type='checkbox' id='opt3' />
               <label>Light fiction</label>
             </li>
           </Dropdown>
@@ -51,10 +37,24 @@ const Catalog: React.FC = () => {
             <li>Date of issue</li>
           </Dropdown>
         </div>
-      </FilterPanel>
+      </div>
       <BookCardList />
     </StyledCatalog>
   );
 };
+
+const StyledCatalog = styled.section`
+  margin-top: 110px;
+
+  .filter-panel {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .dropdown-container {
+    display: flex;
+    gap: 20px;
+  }
+`;
 
 export default Catalog;
