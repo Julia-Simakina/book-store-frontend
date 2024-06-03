@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "../store/store";
+import { useCurrentUser } from "../ hooks";
 
 const OnlyNotLogged: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const currentUser = useAppSelector((state) => state.main.currentUser);
+  const currentUser = useCurrentUser();
 
   if (currentUser) {
     return <Navigate to="/" replace />;

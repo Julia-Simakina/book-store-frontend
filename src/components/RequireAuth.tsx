@@ -1,9 +1,9 @@
 import React from "react";
 import { useLocation, Navigate } from "react-router-dom";
-import { useAppSelector } from "../store/store";
+import { useCurrentUser } from "../ hooks";
 
 const RequireAuth: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const currentUser = useAppSelector((state) => state.main.currentUser);
+  const currentUser = useCurrentUser();
   const location = useLocation();
 
   if (!currentUser) {

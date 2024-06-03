@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { setUser } from "./store/MainSlice";
-import { getMe } from "./http/userApi";
+import { setUser, initStore } from "./store/MainSlice";
+import { getMe } from "./api/http/userApi";
 import AppRoutes from "./components/routes/Routes";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
 import Title from "./components/Title";
-import PageContainer from "./shared/ui/StyledPage";
+import PageContainer from "./container/StyledPage";
+import { useAppSelector } from "./store/store";
 
 const App: React.FC = () => {
-  const [storeInitialized, setStoreInitialized] = useState(false);
+  const isStoreInit = useAppSelector((state) => state.main.isStoreInit);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,28 +19,29 @@ const App: React.FC = () => {
       try {
         const token = localStorage.getItem("accessToken");
         if (!token) {
+          dispatch(initStore(false));
           return;
         }
 
         const currentUser = await getMe();
         dispatch(setUser(currentUser));
+        dispatch(initStore(true));
       } catch (error) {
+        dispatch(initStore(false));
         console.error(error);
-      } finally {
-        setStoreInitialized(true);
       }
     })();
-  }, []);
-
-  // if (!storeInitialized) {
-  //   return <p>Loading...</p>;
-  // }
+  }, [dispatch]);
 
   return (
     <AppWrapper>
       <PageContainer FooterSlot={Footer}>
         <Header />
-        {storeInitialized ? <AppRoutes /> : <Title>Loading...</Title>}
+        {typeof isStoreInit !== "boolean" ? (
+          <Title>Loading...</Title>
+        ) : (
+          <AppRoutes />
+        )}
       </PageContainer>
     </AppWrapper>
   );
