@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setUser, initStore } from "./store/MainSlice";
 import { getMe } from "./api/http/userApi";
-import AppRoutes from "./components/routes/Routes";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
-import Title from "./components/Title";
-import PageContainer from "./container/StyledPage";
+import AppRoutes from "../src/ui/components/routes/Routes";
+import Footer from "../src/ui/components/Footer/Footer";
+import Header from "../src/ui/components/Header/Header";
+import Title from "../src/ui/components/Title/Title";
+import PageContainer from "./ui/container";
 import { useAppSelector } from "./store/store";
 
 const App: React.FC = () => {
-  const isStoreInit = useAppSelector((state) => state.main.isStoreInit);
+  const isStoreInit = useAppSelector(state => state.main.isStoreInit);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,11 +37,7 @@ const App: React.FC = () => {
     <AppWrapper>
       <PageContainer FooterSlot={Footer}>
         <Header />
-        {typeof isStoreInit !== "boolean" ? (
-          <Title>Loading...</Title>
-        ) : (
-          <AppRoutes />
-        )}
+        {typeof isStoreInit !== "boolean" ? <Title>Loading...</Title> : <AppRoutes />}
       </PageContainer>
     </AppWrapper>
   );
