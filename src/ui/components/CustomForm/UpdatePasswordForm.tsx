@@ -1,8 +1,17 @@
 import { useFormik } from "formik";
 import CustomButton from "../CustomButton/CustomButton";
 import hideIcon from "../../../assets/icons/Hide.svg";
-import { createRepeatPasswordSchema, newpassword, password } from "../validation";
-import { InputWrapper, StyleForm, EditButton, TitleWrapper } from "./StyledForm";
+import {
+  createRepeatPasswordSchema,
+  newpassword,
+  password,
+} from "../../../utils/validation";
+import {
+  InputWrapper,
+  StyleForm,
+  EditButton,
+  TitleWrapper,
+} from "./StyledForm";
 import { useState } from "react";
 import { updateUser } from "../../../api/http/userApi";
 import { signIn } from "../../../api/http/authApi";
@@ -24,16 +33,16 @@ const UpdatePasswordForm = () => {
     initialValues: {
       password: "",
       newpassword: "",
-      repeatPassword: ""
+      repeatPassword: "",
     },
     validationSchema: Yup.object().shape({
       password,
       newpassword,
-      repeatPassword: createRepeatPasswordSchema("newpassword")
+      repeatPassword: createRepeatPasswordSchema("newpassword"),
     }),
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       await handleSavePasswordChanges(values);
-    }
+    },
   });
 
   const handleEditButtonExit = () => {
@@ -48,12 +57,12 @@ const UpdatePasswordForm = () => {
   const handleSavePasswordChanges = async (values: ValuePasswordType) => {
     try {
       const newPassword = {
-        password: values.newpassword
+        password: values.newpassword,
       };
 
       const checkUser = {
         email: currentUser.email || "",
-        password: values.password
+        password: values.password,
       };
 
       await signIn(checkUser);
@@ -78,49 +87,54 @@ const UpdatePasswordForm = () => {
   };
 
   return (
-    <StyleForm onSubmit={formik.handleSubmit} width='522px'>
+    <StyleForm onSubmit={formik.handleSubmit} width="522px">
       <TitleWrapper>
-        <h2 className='info-title'>Password</h2>
+        <h2 className="info-title">Password</h2>
         {isPasswordEditing ? (
-          <EditButton onClick={handleEditButtonExit} type='button'>
+          <EditButton onClick={handleEditButtonExit} type="button">
             Cancel
           </EditButton>
         ) : (
-          <EditButton onClick={handleEditButtonClick} type='button'>
+          <EditButton onClick={handleEditButtonClick} type="button">
             Change password
           </EditButton>
         )}
       </TitleWrapper>
-      <fieldset className='auth__form-element'>
-        <div className='auth__form-container'>
+      <fieldset className="auth__form-element">
+        <div className="auth__form-container">
           <InputWrapper>
             <div
               className={`input-container ${
-                formik.touched.password && formik.errors.password && "input-error"
+                formik.touched.password &&
+                formik.errors.password &&
+                "input-error"
               }`}
             >
-              <img className='input-img' src={hideIcon} alt='icon' />
+              <img className="input-img" src={hideIcon} alt="icon" />
               <label
                 className={`label ${
-                  formik.touched.password && formik.errors.password && "label-error"
+                  formik.touched.password &&
+                  formik.errors.password &&
+                  "label-error"
                 }`}
-                htmlFor='password'
+                htmlFor="password"
               >
                 {isPasswordEditing ? "Old password" : "You Password"}
               </label>
               <input
-                className='field'
-                id='password'
-                name='password'
-                type='password'
+                className="field"
+                id="password"
+                name="password"
+                type="password"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={!isPasswordEditing ? "*******" : formik.values.password}
                 disabled={!isPasswordEditing}
               />
             </div>
-            {(formik.touched.password || (formik.errors.password && formik.values.password)) && (
-              <span className='error-massage '>{formik.errors.password}</span>
+            {(formik.touched.password ||
+              (formik.errors.password && formik.values.password)) && (
+              <span className="error-massage ">{formik.errors.password}</span>
             )}
           </InputWrapper>
           {isPasswordEditing && (
@@ -128,23 +142,27 @@ const UpdatePasswordForm = () => {
               <InputWrapper>
                 <div
                   className={`input-container ${
-                    formik.touched.newpassword && formik.errors.newpassword && "input-error"
+                    formik.touched.newpassword &&
+                    formik.errors.newpassword &&
+                    "input-error"
                   }`}
                 >
-                  <img className='input-img' src={hideIcon} alt='icon' />
+                  <img className="input-img" src={hideIcon} alt="icon" />
                   <label
                     className={`label ${
-                      formik.touched.newpassword && formik.errors.newpassword && "label-error"
+                      formik.touched.newpassword &&
+                      formik.errors.newpassword &&
+                      "label-error"
                     }`}
-                    htmlFor='newpassword'
+                    htmlFor="newpassword"
                   >
                     New password
                   </label>
                   <input
-                    className='field'
-                    name='newpassword'
-                    id='newpassword'
-                    type='password'
+                    className="field"
+                    name="newpassword"
+                    id="newpassword"
+                    type="password"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.newpassword}
@@ -152,46 +170,55 @@ const UpdatePasswordForm = () => {
                 </div>
                 {(formik.touched.newpassword ||
                   (formik.errors.newpassword && formik.values.newpassword)) && (
-                  <span className='error-massage '>{formik.errors.newpassword}</span>
+                  <span className="error-massage ">
+                    {formik.errors.newpassword}
+                  </span>
                 )}
               </InputWrapper>
               <InputWrapper>
                 <div
                   className={`input-container ${
-                    formik.touched.repeatPassword && formik.errors.repeatPassword && "input-error"
+                    formik.touched.repeatPassword &&
+                    formik.errors.repeatPassword &&
+                    "input-error"
                   }`}
                 >
-                  <img className='input-img' src={hideIcon} alt='icon' />
+                  <img className="input-img" src={hideIcon} alt="icon" />
                   <label
                     className={`label ${
-                      formik.touched.repeatPassword && formik.errors.repeatPassword && "label-error"
+                      formik.touched.repeatPassword &&
+                      formik.errors.repeatPassword &&
+                      "label-error"
                     }`}
-                    htmlFor='repeatPassword'
+                    htmlFor="repeatPassword"
                   >
                     Repeat password
                   </label>
                   <input
-                    className='field'
-                    name='repeatPassword'
-                    id='repeatPassword'
-                    type='password'
+                    className="field"
+                    name="repeatPassword"
+                    id="repeatPassword"
+                    type="password"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.repeatPassword}
                   />
                 </div>
                 {(formik.touched.repeatPassword ||
-                  (formik.errors.repeatPassword && formik.values.repeatPassword)) && (
-                  <span className='error-massage '>{formik.errors.repeatPassword}</span>
+                  (formik.errors.repeatPassword &&
+                    formik.values.repeatPassword)) && (
+                  <span className="error-massage ">
+                    {formik.errors.repeatPassword}
+                  </span>
                 )}
               </InputWrapper>
             </>
           )}
         </div>
       </fieldset>
-      <div className='auth__submit-container'>
+      <div className="auth__submit-container">
         {isPasswordEditing && (
-          <CustomButton type='submit' marginTop='30px' width='166px'>
+          <CustomButton type="submit" marginTop="30px" width="166px">
             Save
           </CustomButton>
         )}

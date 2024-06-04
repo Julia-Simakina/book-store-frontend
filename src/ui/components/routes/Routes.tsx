@@ -12,10 +12,10 @@ import RequireAuth from "../RequireAuth";
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path='/' element={<Home />} />
+      <Route path="/" element={<Home />} />
 
       <Route
-        path='/signin'
+        path="/signin"
         element={
           <OnlyNotLogged>
             <SignIn />
@@ -24,17 +24,17 @@ const AppRoutes: React.FC = () => {
       />
 
       <Route
-        path='/signup'
+        path="/signup"
         element={
           <OnlyNotLogged>
             <SignUp />
           </OnlyNotLogged>
         }
       />
-      <Route path='/product-page/:id' element={<Product />} />
+      <Route path="/product-page/:id" element={<Product />} />
 
       <Route
-        path='/cart'
+        path="/cart"
         element={
           <RequireAuth>
             <Cart />
@@ -43,7 +43,7 @@ const AppRoutes: React.FC = () => {
       />
 
       <Route
-        path='/profile'
+        path="/profile"
         element={
           <RequireAuth>
             <Profile />

@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { StarRatingPropsType } from "./StarRating";
 
-const StarRatingContainer = styled.div`
+const StarRatingContainer = styled.div<StarRatingPropsType>`
   display: flex;
   gap: 30px;
-  margin-top: 20px;
+  margin: ${(props) => props.margin || "0"};
+  /* margin-top: 20px; */
 
   .rating {
     font-size: 16px;

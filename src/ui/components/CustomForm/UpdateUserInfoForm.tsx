@@ -1,8 +1,13 @@
 import { useFormik } from "formik";
 import CustomButton from "../CustomButton/CustomButton";
 import emailIcon from "../../../assets/icons/Mail.svg";
-import { email } from "../validation";
-import { InputWrapper, StyleForm, EditButton, TitleWrapper } from "./StyledForm";
+import { email } from "../../../utils/validation";
+import {
+  InputWrapper,
+  StyleForm,
+  EditButton,
+  TitleWrapper,
+} from "./StyledForm";
 import { useState } from "react";
 import { updateUser } from "../../../api/http/userApi";
 import { UserType } from "../../../types";
@@ -28,15 +33,15 @@ const UpdateUserInfoForm = () => {
   const formik = useFormik({
     initialValues: {
       name: currentUser.name ?? "",
-      email: currentUser.email ?? ""
+      email: currentUser.email ?? "",
     },
     validationSchema: Yup.object().shape({
       name,
-      email
+      email,
     }),
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       await handleSaveUserInfoChanges(values);
-    }
+    },
   });
 
   const handleEditButtonClick = () => {
@@ -47,22 +52,24 @@ const UpdateUserInfoForm = () => {
     formik.resetForm({
       values: {
         name: currentUser.name || "",
-        email: currentUser.email
-      }
+        email: currentUser.email,
+      },
     });
     setIsUserInfoEditing(false);
   };
 
-  const handleSaveUserInfoChanges = async (values: ValueInfoType): Promise<void | UserType> => {
+  const handleSaveUserInfoChanges = async (
+    values: ValueInfoType
+  ): Promise<void | UserType> => {
     try {
       const updatedUserInfo = {
         name: values.name || "",
-        email: values.email
+        email: values.email,
       };
 
       const currentUserData = {
         name: currentUser.name,
-        email: currentUser.email
+        email: currentUser.email,
       };
 
       if (JSON.stringify(updatedUserInfo) === JSON.stringify(currentUserData)) {
@@ -86,47 +93,50 @@ const UpdateUserInfoForm = () => {
   };
 
   return (
-    <StyleForm onSubmit={formik.handleSubmit} width='522px'>
+    <StyleForm onSubmit={formik.handleSubmit} width="522px">
       <TitleWrapper>
-        <h2 className='info-title'>Personal information</h2>
+        <h2 className="info-title">Personal information</h2>
         {isUserInfoEditing ? (
-          <EditButton onClick={handleEditButtonExit} type='button'>
+          <EditButton onClick={handleEditButtonExit} type="button">
             Cancel
           </EditButton>
         ) : (
-          <EditButton onClick={handleEditButtonClick} type='button'>
+          <EditButton onClick={handleEditButtonClick} type="button">
             Change information
           </EditButton>
         )}
       </TitleWrapper>
-      <fieldset className='auth__form-element'>
-        <div className='auth__form-container'>
+      <fieldset className="auth__form-element">
+        <div className="auth__form-container">
           <InputWrapper>
             <div
               className={`input-container ${
                 formik.touched.name && formik.errors.name && "input-error"
               }`}
             >
-              <img className='input-img' src={userIcon} alt='icon' />
+              <img className="input-img" src={userIcon} alt="icon" />
               <label
-                className={`label ${formik.touched.name && formik.errors.name && "label-error"}`}
-                htmlFor='name'
+                className={`label ${
+                  formik.touched.name && formik.errors.name && "label-error"
+                }`}
+                htmlFor="name"
               >
                 Your name
               </label>
               <input
-                className='field'
-                id='name'
-                name='name'
-                type='text'
+                className="field"
+                id="name"
+                name="name"
+                type="text"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.name}
                 disabled={!isUserInfoEditing}
               />
             </div>
-            {(formik.touched.name || (formik.errors.name && formik.values.name)) && (
-              <span className='error-massage '>{formik.errors.name}</span>
+            {(formik.touched.name ||
+              (formik.errors.name && formik.values.name)) && (
+              <span className="error-massage ">{formik.errors.name}</span>
             )}
           </InputWrapper>
           <InputWrapper>
@@ -135,33 +145,36 @@ const UpdateUserInfoForm = () => {
                 formik.touched.email && formik.errors.email && "input-error"
               }`}
             >
-              <img className='input-img' src={emailIcon} alt='icon' />
+              <img className="input-img" src={emailIcon} alt="icon" />
               <label
-                className={`label ${formik.touched.email && formik.errors.email && "label-error"}`}
-                htmlFor='email'
+                className={`label ${
+                  formik.touched.email && formik.errors.email && "label-error"
+                }`}
+                htmlFor="email"
               >
                 Email
               </label>
               <input
-                className='field'
-                name='email'
-                id='email'
-                type='email'
+                className="field"
+                name="email"
+                id="email"
+                type="email"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 disabled={!isUserInfoEditing}
               />
             </div>
-            {(formik.touched.email || (formik.errors.email && formik.values.email)) && (
-              <span className='error-massage '>{formik.errors.email}</span>
+            {(formik.touched.email ||
+              (formik.errors.email && formik.values.email)) && (
+              <span className="error-massage ">{formik.errors.email}</span>
             )}
           </InputWrapper>
         </div>
       </fieldset>
-      <div className='auth__submit-container'>
+      <div className="auth__submit-container">
         {isUserInfoEditing && (
-          <CustomButton type='submit' marginTop='30px' width='166px'>
+          <CustomButton type="submit" marginTop="30px" width="166px">
             Save
           </CustomButton>
         )}

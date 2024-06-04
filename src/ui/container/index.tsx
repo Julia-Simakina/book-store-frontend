@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import StyledPage from "./styled";
+import StyledPage from "./StyledPage";
 import StyledMainWrapper from "./StyledMainWrapper";
 
 interface IProps {

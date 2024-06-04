@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import StarIcon from "../StarIcon";
 import StarRatingContainer from "./StarRating.styles";
 
-const StarRating = () => {
+export type StarRatingPropsType = {
+  margin?: string;
+};
+
+const StarRating = (props: StarRatingPropsType) => {
   const [rating, setRating] = useState(0);
 
   const handleStarClick = (selectedRating: number) => {
@@ -10,7 +14,7 @@ const StarRating = () => {
   };
 
   return (
-    <StarRatingContainer>
+    <StarRatingContainer margin={props.margin}>
       {[...Array(5)].map((_, index) => {
         const starValue = index + 1;
         return (

@@ -10,3 +10,17 @@ export type UserType = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type BookType = {
+  authorName: string;
+  cover: string;
+  dateOfIssue: string;
+  description: string;
+  genre: string;
+  hardCoverPrice: number;
+  id: number;
+  name: string;
+  paperBackPrice: number;
+  rating: number;
+  status: string;
+};

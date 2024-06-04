@@ -5,7 +5,11 @@ import CustomButton from "../CustomButton/CustomButton";
 import emailIcon from "../../../assets/icons/Mail.svg";
 import hideIcon from "../../../assets/icons/Hide.svg";
 import { useNavigate } from "react-router-dom";
-import { createRepeatPasswordSchema, email, password } from "../validation";
+import {
+  createRepeatPasswordSchema,
+  email,
+  password,
+} from "../../../utils/validation";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/MainSlice";
 import { StyleForm, InputWrapper } from "./StyledForm";
@@ -26,16 +30,16 @@ const SignupForm = () => {
     initialValues: {
       email: "",
       password: "",
-      repeatPassword: ""
+      repeatPassword: "",
     },
     validationSchema: Yup.object().shape({
       password,
       repeatPassword: createRepeatPasswordSchema("password"),
-      email
+      email,
     }),
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       await handleSignUp(values);
-    }
+    },
   });
 
   const handleSignUp = async (values: ValueType) => {
@@ -43,7 +47,7 @@ const SignupForm = () => {
     try {
       const newUser = {
         email: values.email,
-        password: values.password
+        password: values.password,
       };
 
       const createdUser = await signUp(newUser);
@@ -63,99 +67,114 @@ const SignupForm = () => {
   };
 
   return (
-    <StyleForm onSubmit={formik.handleSubmit} marginTop='60px'>
-      <fieldset className='auth__form-element'>
-        <div className='auth__form-container'>
+    <StyleForm onSubmit={formik.handleSubmit} marginTop="60px">
+      <fieldset className="auth__form-element">
+        <div className="auth__form-container">
           <InputWrapper>
             <div
               className={`input-container ${
                 formik.touched.email && formik.errors.email && "input-error"
               }`}
             >
-              <img className='input-img' src={emailIcon} alt='icon' />
+              <img className="input-img" src={emailIcon} alt="icon" />
               <label
-                className={`label ${formik.touched.email && formik.errors.email && "label-error"}`}
-                htmlFor='email'
+                className={`label ${
+                  formik.touched.email && formik.errors.email && "label-error"
+                }`}
+                htmlFor="email"
               >
                 Email
               </label>
               <input
-                className='field'
-                name='email'
-                id='email'
-                type='email'
+                className="field"
+                name="email"
+                id="email"
+                type="email"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
             </div>
-            {(formik.touched.email || (formik.errors.email && formik.values.email)) && (
-              <span className='error-massage '>{formik.errors.email}</span>
+            {(formik.touched.email ||
+              (formik.errors.email && formik.values.email)) && (
+              <span className="error-massage ">{formik.errors.email}</span>
             )}
           </InputWrapper>
           <InputWrapper>
             <div
               className={`input-container ${
-                formik.touched.password && formik.errors.password && "input-error"
+                formik.touched.password &&
+                formik.errors.password &&
+                "input-error"
               }`}
             >
-              <img className='input-img' src={hideIcon} alt='icon' />
+              <img className="input-img" src={hideIcon} alt="icon" />
               <label
                 className={`label ${
-                  formik.touched.password && formik.errors.password && "label-error"
+                  formik.touched.password &&
+                  formik.errors.password &&
+                  "label-error"
                 }`}
-                htmlFor='password'
+                htmlFor="password"
               >
                 Password
               </label>
               <input
-                className='field'
-                id='password'
-                name='password'
-                type='password'
+                className="field"
+                id="password"
+                name="password"
+                type="password"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.password}
               />
             </div>
-            {(formik.touched.password || (formik.errors.password && formik.values.password)) && (
-              <span className='error-massage '>{formik.errors.password}</span>
+            {(formik.touched.password ||
+              (formik.errors.password && formik.values.password)) && (
+              <span className="error-massage ">{formik.errors.password}</span>
             )}
           </InputWrapper>
           <InputWrapper>
             <div
               className={`input-container ${
-                formik.touched.repeatPassword && formik.errors.repeatPassword && "input-error"
+                formik.touched.repeatPassword &&
+                formik.errors.repeatPassword &&
+                "input-error"
               }`}
             >
-              <img className='input-img' src={hideIcon} alt='icon' />
+              <img className="input-img" src={hideIcon} alt="icon" />
               <label
                 className={`label ${
-                  formik.touched.repeatPassword && formik.errors.repeatPassword && "label-error"
+                  formik.touched.repeatPassword &&
+                  formik.errors.repeatPassword &&
+                  "label-error"
                 }`}
-                htmlFor='repeatPassword'
+                htmlFor="repeatPassword"
               >
                 Replay password
               </label>
               <input
-                className='field'
-                id='repeatPassword'
-                name='repeatPassword'
-                type='password'
+                className="field"
+                id="repeatPassword"
+                name="repeatPassword"
+                type="password"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.repeatPassword}
               />
             </div>
             {(formik.touched.repeatPassword ||
-              (formik.errors.repeatPassword && formik.values.repeatPassword)) && (
-              <span className='error-massage '>{formik.errors.repeatPassword}</span>
+              (formik.errors.repeatPassword &&
+                formik.values.repeatPassword)) && (
+              <span className="error-massage ">
+                {formik.errors.repeatPassword}
+              </span>
             )}
           </InputWrapper>
         </div>
       </fieldset>
-      <div className='auth__submit-container'>
-        <CustomButton type='submit' marginTop='60px' width='166px'>
+      <div className="auth__submit-container">
+        <CustomButton type="submit" marginTop="60px" width="166px">
           Sign Up
         </CustomButton>
       </div>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StyledBookCard = styled.div`
-  color: ${props => props.color || "#0D1821"};
+  color: ${(props) => props.color || "#0D1821"};
   width: 305px;
   position: relative;
 
@@ -21,6 +21,17 @@ const StyledBookCard = styled.div`
     font-weight: 500;
     margin-top: 8px;
     color: #b9bac3;
+  }
+
+  .book-cover {
+    width: 305px;
+    height: 448px;
+    border-radius: 16px;
+    object-fit: cover;
+  }
+
+  .book-link {
+    text-decoration: none;
   }
 `;
 
