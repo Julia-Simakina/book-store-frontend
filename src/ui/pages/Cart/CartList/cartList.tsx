@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import CartProductItem from "../CartProductItem/CartProductItem";
 import { BookType } from "../../../../types";
 import { getAllBooksFromCart } from "../../../../api/http/cartApi";
+import styled from "styled-components";
 
 type CartListPropsType = {
   cartList: BookType[];
 };
 
-const CartList: React.FC<CartListPropsType> = (props) => {
+const CartList: React.FC<CartListPropsType> = props => {
   // const [cartList, setCartList] = useState<BookType[] | null>(null);
 
   // useEffect(() => {
@@ -23,8 +24,8 @@ const CartList: React.FC<CartListPropsType> = (props) => {
   // }, []);
 
   return (
-    <div>
-      {props.cartList.map((book) => (
+    <StyledCartList>
+      {props.cartList.map(book => (
         <CartProductItem
           key={book.id}
           src={book.cover}
@@ -33,8 +34,12 @@ const CartList: React.FC<CartListPropsType> = (props) => {
           hardCoverPrice={book.hardCoverPrice.toString()}
         />
       ))}
-    </div>
+    </StyledCartList>
   );
 };
+
+const StyledCartList = styled.div`
+  margin-top: 40px;
+`;
 
 export default CartList;
