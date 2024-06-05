@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledPageContainer = styled.main`
+const StyledEmptyCart = styled.div`
   display: flex;
   align-items: center;
   margin: 90px auto 55px;
@@ -21,4 +21,4 @@ const StyledPageContainer = styled.main`
   }
 `;
 
-export default StyledPageContainer;
+export default StyledEmptyCart;

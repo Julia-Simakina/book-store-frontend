@@ -4,6 +4,7 @@ import StarRating from "../StarRating/StarRating";
 import LikeIcon from "../LikeIcon";
 import StyledBookCard from "./BookCard.styles";
 import { Link } from "react-router-dom";
+import { addBookToCart } from "../../../api/http/cartApi";
 
 type BookCardType = {
   color?: string;
@@ -12,6 +13,7 @@ type BookCardType = {
   author: string;
   key: number;
   hardCoverPrice: string;
+  id: number;
   to: any;
 };
 
@@ -33,7 +35,12 @@ const BookCard: React.FC<BookCardType> = (props) => {
       </Link>
       <StarRating margin="20px 0 0 0" />
 
-      <CustomButton width="305px" fontSize="20px" marginTop="27px">
+      <CustomButton
+        onClick={() => addBookToCart(props.id)}
+        width="305px"
+        fontSize="20px"
+        marginTop="27px"
+      >
         {props.hardCoverPrice}
       </CustomButton>
     </StyledBookCard>

@@ -25,7 +25,7 @@ export const getMe = async (): Promise<UserType> => {
     const response: AxiosResponse<UserType> = await api.get(
       `${pathPrefix}/getme`
     );
-    console.log("response.data >>>>>", response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching user data: ", error);

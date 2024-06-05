@@ -24,3 +24,10 @@ export type BookType = {
   rating: number;
   status: string;
 };
+
+export type CartType = {
+  id: number;
+  bookId: number;
+  userId: number;
+  count: number;
+};

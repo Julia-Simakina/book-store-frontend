@@ -3,10 +3,8 @@ import StyledBookCardList from "./BookCardList.styles";
 import { getBooks } from "../../../api/http/bookApi";
 import { useEffect, useState } from "react";
 import { BookType } from "../../../types";
-import { useNavigate } from "react-router-dom";
 
 const BookCardList: React.FC = () => {
-  const naigate = useNavigate();
   const [bookList, setBookList] = useState<BookType[] | null>(null);
 
   useEffect(() => {
@@ -23,9 +21,10 @@ const BookCardList: React.FC = () => {
 
   return (
     <StyledBookCardList>
-      {bookList?.length !== 0 &&
+      {bookList &&
         bookList?.map((book) => (
           <BookCard
+            id={book.id}
             to={`/product-page/${book.id}`}
             key={book.id}
             src={book.cover}

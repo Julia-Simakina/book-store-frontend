@@ -79,7 +79,6 @@ const UpdateUserInfoForm = () => {
       const updatedUser = await updateUser(currentUser.id, updatedUserInfo);
 
       dispatch(setUser(updatedUser));
-      console.log(updatedUser);
       console.log("User updated successfully:", updatedUser);
 
       setIsUserInfoEditing(false);
