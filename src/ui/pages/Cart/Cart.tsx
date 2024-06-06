@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import EmptyCart from "./EmptyCart/EmptyCart";
-import CartProductItem from "./CartProductItem/CartProductItem";
-import CartList from "./CartList/cartList";
+import CartList from "./CartList/CartList";
 import { getAllBooksFromCart } from "../../../api/http/cartApi";
 import { BookType } from "../../../types";
 

@@ -2,7 +2,7 @@ import StyledCustomButton from "./CustomButton.styles";
 
 export type CustomButtonPropsType = {
   onClick?: () => void;
-  children: string | JSX.Element;
+  children: string | JSX.Element | string[];
   backgroundColor?: string;
   width?: string;
   color?: string;

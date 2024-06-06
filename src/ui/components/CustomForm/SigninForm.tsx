@@ -44,8 +44,6 @@ const SigninForm: React.FC = () => {
 
       const loginedUser = await signIn(newUser);
 
-      console.log("User logined successfully:", loginedUser);
-
       dispatch(setUser(loginedUser.user));
       updateAuthHeaders();
       navigate("/");

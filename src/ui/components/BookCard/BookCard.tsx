@@ -41,7 +41,7 @@ const BookCard: React.FC<BookCardType> = (props) => {
         fontSize="20px"
         marginTop="27px"
       >
-        {props.hardCoverPrice}
+        ${props.hardCoverPrice} USD
       </CustomButton>
     </StyledBookCard>
   );

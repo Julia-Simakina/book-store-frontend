@@ -1,22 +1,29 @@
 import BookCard from "../BookCard/BookCard";
 import StyledBookCardList from "./BookCardList.styles";
-import { getBooks } from "../../../api/http/bookApi";
-import { useEffect, useState } from "react";
-import { BookType } from "../../../types";
+import { useEffect } from "react";
+import { fetchBooks } from "../../../store/BookThunk";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 
 const BookCardList: React.FC = () => {
-  const [bookList, setBookList] = useState<BookType[] | null>(null);
+  // const [bookList, setBookList] = useState<BookType[] | null>(null);
+  const dispatch = useAppDispatch();
+
+  const bookList = useAppSelector((state) => state.books.bookList);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const books = await getBooks();
+  //       setBookList(books);
+  //       console.log("books>>>>>>>>>>>", books);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   })();
+  // }, []);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const books = await getBooks();
-        setBookList(books);
-        console.log("books>>>>>>>>>>>", books);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
+    dispatch(fetchBooks());
   }, []);
 
   return (
@@ -38,5 +45,3 @@ const BookCardList: React.FC = () => {
 };
 
 export default BookCardList;
-
-//naigate(`/product-page/${book.id}`)

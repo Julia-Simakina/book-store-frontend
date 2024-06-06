@@ -6,6 +6,7 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import { useParams } from "react-router-dom";
 import { getBookById } from "../../../../api/http/bookApi";
 import { BookType } from "../../../../types";
+import { addBookToCart } from "../../../../api/http/cartApi";
 
 const BookProductCard = () => {
   const [isLiked, setIsLiked] = useState(false);
@@ -57,7 +58,9 @@ const BookProductCard = () => {
 
           <div className="button-wrapper">
             <h3 className="button-title">Hardcover</h3>
-            <CustomButton>{book.hardCoverPrice.toString()}</CustomButton>
+            <CustomButton onClick={() => addBookToCart(book.id)}>
+              ${book.hardCoverPrice.toString()} USD
+            </CustomButton>
           </div>
         </div>
       </div>

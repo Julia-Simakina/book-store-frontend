@@ -1,14 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserType } from "../types";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { BookType, UserType } from "../types";
+import { getBooks } from "../api/http/bookApi";
+import { fetchBooks } from "./BookThunk";
 
 export type MainStateType = {
   currentUser: UserType | null;
   isStoreInit: boolean | null;
+  bookList: BookType[];
 };
 
 const initialState: MainStateType = {
   currentUser: null,
   isStoreInit: null,
+  bookList: [],
 };
 
 const MainSlice = createSlice({
@@ -26,6 +30,14 @@ const MainSlice = createSlice({
     initStore: (state, action: PayloadAction<boolean>) => {
       state.isStoreInit = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    // builder.addCase(fetchBooks.fulfilled, (state, action) => {
+    //   state.bookList = action.payload;
+    // });
+    // [fetchBooks.fulfilled.type]: (state, action) => {
+    //   state.bookList = action.payload;
+    // },
   },
 });
 
