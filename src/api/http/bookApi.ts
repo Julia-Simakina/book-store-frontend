@@ -17,10 +17,13 @@ export const getBookById = async (bookId: number): Promise<BookType> => {
   }
 };
 
-export const getBooks = async (): Promise<BookType[]> => {
+export const getBooks = async (
+  startIndex: any,
+  endIndex: any
+): Promise<BookType[]> => {
   try {
     const response: AxiosResponse<BookType[]> = await api.get(
-      `${pathPrefix}/all`
+      `${pathPrefix}/all?startIndex=${startIndex}&endIndex=${endIndex}`
     );
 
     return response.data;

@@ -6,7 +6,7 @@ const StyledBookCardList = styled.div`
   gap: 60px 20px;
   margin: 38px auto 0;
   padding: 0;
-  max-width: 1280px;
+  max-width: 980px;
   justify-items: center;
 `;
 
