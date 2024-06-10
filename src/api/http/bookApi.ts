@@ -2,6 +2,11 @@ import { AxiosResponse } from "axios";
 import api from "./api";
 import { BookType } from "../../types";
 
+type GetBooksResponseType = {
+  slicedCards: BookType[];
+  numbers: number[];
+};
+
 const pathPrefix = "book";
 
 export const getBookById = async (bookId: number): Promise<BookType> => {
@@ -18,12 +23,12 @@ export const getBookById = async (bookId: number): Promise<BookType> => {
 };
 
 export const getBooks = async (
-  startIndex: any,
-  endIndex: any
-): Promise<BookType[]> => {
+  itemsPerPage: number,
+  currentPage: number
+): Promise<GetBooksResponseType> => {
   try {
-    const response: AxiosResponse<BookType[]> = await api.get(
-      `${pathPrefix}/all?startIndex=${startIndex}&endIndex=${endIndex}`
+    const response: AxiosResponse<GetBooksResponseType> = await api.get(
+      `${pathPrefix}/all?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}`
     );
 
     return response.data;

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import CustomButton from "../CustomButton/CustomButton";
-import StarRating from "../StarRating/StarRating";
-import LikeIcon from "../LikeIcon";
+import CustomButton from "../../../../components/CustomButton/CustomButton";
+import StarRating from "../../../../components/StarRating/StarRating";
+import LikeIcon from "../../../../components/LikeIcon";
 import StyledBookCard from "./BookCard.styles";
 import { Link } from "react-router-dom";
-import { addBookToCart } from "../../../api/http/cartApi";
+import { addBookToCart } from "../../../../../api/http/cartApi";
 
 type BookCardType = {
   color?: string;
