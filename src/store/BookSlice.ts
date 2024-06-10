@@ -4,19 +4,21 @@ import { fetchBooks } from "./BookThunk";
 
 type SlicedCardsType = {
   slicedCards: BookType[];
-  numbers: number[];
+  numberOfPages: number;
+  currentPage: number;
 };
 
 type BookSliceType = {
-  currentPage: number;
+  // currentPage: number;
   bookList: SlicedCardsType;
 };
 
 const initialState: BookSliceType = {
-  currentPage: 1,
+  // currentPage: 1,
   bookList: {
     slicedCards: [],
-    numbers: [],
+    currentPage: 1,
+    numberOfPages: 1,
   },
 };
 
@@ -25,28 +27,29 @@ const BookSlice = createSlice({
   initialState,
   reducers: {
     incrementCurrentPage(state) {
-      state.currentPage += 1;
+      state.bookList.currentPage += 1;
     },
 
     decrementCurrentPage(state) {
-      state.currentPage -= 1;
+      state.bookList.currentPage -= 1;
     },
 
     setCurrentPage(state, action) {
-      state.currentPage = action.payload;
+      state.bookList.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBooks.fulfilled, (state, action) => {
       state.bookList.slicedCards = action.payload.slicedCards;
-      state.bookList.numbers = action.payload.numbers;
+      state.bookList.numberOfPages = action.payload.numberOfPages;
+      state.bookList.currentPage = action.payload.currentPage;
     });
     builder.addCase(fetchBooks.pending, (state, action) => {
       //
     });
     builder.addCase(fetchBooks.rejected, (state, action) => {
       state.bookList.slicedCards = [];
-      state.bookList.numbers = [];
+      state.bookList.numberOfPages = 1;
     });
   },
 });

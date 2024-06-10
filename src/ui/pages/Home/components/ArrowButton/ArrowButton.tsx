@@ -21,7 +21,7 @@ const ArrowButton: React.FC<ArrowLrftButtonType> = (props) => {
       >
         <path
           d="M7.96317 1L1 7.96317L7.96317 14.9263"
-          stroke={props.disabled ? "#96969c" : "#0D1821"}
+          stroke={props.disabled ? "#a0a0a7" : "#0D1821"}
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -38,4 +38,3 @@ const StyledArrowButton = styled.button<ArrowLrftButtonType>`
   cursor: pointer;
 `;
 export default ArrowButton;
-// #B9BAC3

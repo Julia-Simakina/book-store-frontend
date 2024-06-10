@@ -11,16 +11,21 @@ import {
   decrementCurrentPage,
   setCurrentPage,
 } from "../../../../../store/BookSlice";
+import { useSearchParams } from "react-router-dom";
+
+const ITEMS_PER_PAGE = 3;
 
 const BookCardList: React.FC = () => {
-  // const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
   const dispatch = useAppDispatch();
-  const currentPage = useAppSelector((state) => state.books.currentPage);
+  const currentPage = useAppSelector(
+    (state) => state.books.bookList.currentPage
+  );
   const bookList = useAppSelector((state) => state.books.bookList.slicedCards);
-  const pageNumbers = useAppSelector((state) => state.books.bookList.numbers);
+  const numberOfPages = useAppSelector(
+    (state) => state.books.bookList.numberOfPages
+  );
 
-  console.log("pageNumbers", pageNumbers);
+  const [par, setPar] = useSearchParams();
 
   const handleNextPage = () => {
     dispatch(incrementCurrentPage());
@@ -35,25 +40,29 @@ const BookCardList: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchBooks({ itemsPerPage, currentPage }));
-  }, [dispatch, itemsPerPage, currentPage]);
+    console.log(">>>page >>>>", par.get("page"));
+
+    dispatch(fetchBooks({ itemsPerPage: ITEMS_PER_PAGE, currentPage }));
+  }, [dispatch, currentPage]);
 
   return (
     <>
       <StyledPagination>
         <ArrowButton disabled={currentPage === 1} onClick={handlePrevPage} />
         <div className="page-button-container">
-          {pageNumbers.map((num) => (
-            <PageSelectButton
-              key={num}
-              onClick={() => handlePageSelectClick(num)}
-              select={currentPage === num}
-            />
-          ))}
+          {Array(numberOfPages)
+            .fill(null)
+            .map((_, num) => (
+              <PageSelectButton
+                key={num}
+                onClick={() => handlePageSelectClick(num + 1)}
+                select={currentPage === num + 1}
+              />
+            ))}
         </div>
         <ArrowButton
           transform="rotate(180deg)"
-          disabled={currentPage === pageNumbers.length}
+          disabled={currentPage === numberOfPages}
           onClick={handleNextPage}
         />
       </StyledPagination>

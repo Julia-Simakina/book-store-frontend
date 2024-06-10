@@ -4,7 +4,8 @@ import { BookType } from "../../types";
 
 type GetBooksResponseType = {
   slicedCards: BookType[];
-  numbers: number[];
+  numberOfPages: number;
+  currentPage: number;
 };
 
 const pathPrefix = "book";
@@ -30,7 +31,7 @@ export const getBooks = async (
     const response: AxiosResponse<GetBooksResponseType> = await api.get(
       `${pathPrefix}/all?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}`
     );
-
+    console.log("response.data", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching books data: ", error);
