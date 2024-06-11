@@ -4,11 +4,16 @@ import { getBooks } from "../api/http/bookApi";
 type fetchBooksPropsType = {
   itemsPerPage: number;
   currentPage: number;
+  selectedGenres: any;
 };
 
 export const fetchBooks = createAsyncThunk(
   "books/fetchBooks",
   async (props: fetchBooksPropsType) => {
-    return getBooks(props.itemsPerPage, props.currentPage);
+    return getBooks(
+      props.itemsPerPage,
+      props.currentPage,
+      props.selectedGenres
+    );
   }
 );

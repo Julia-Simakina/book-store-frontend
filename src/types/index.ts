@@ -31,3 +31,8 @@ export type CartType = {
   userId: number;
   count: number;
 };
+
+export type GenreType = {
+  id: number;
+  name: string;
+};

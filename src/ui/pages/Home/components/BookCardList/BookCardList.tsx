@@ -2,48 +2,53 @@ import React, { useState, useEffect } from "react";
 import BookCard from "../BookCard/BookCard";
 import StyledBookCardList from "./BookCardList.styles";
 import { fetchBooks } from "../../../../../store/BookThunk";
+import { fetchGenres } from "../../../../../store/GenreThunk";
 import { useAppDispatch, useAppSelector } from "../../../../../store/store";
 import ArrowButton from "../ArrowButton/ArrowButton";
 import PageSelectButton from "../PageSelectButton/PageSelectButton";
 import styled from "styled-components";
-import {
-  incrementCurrentPage,
-  decrementCurrentPage,
-  setCurrentPage,
-} from "../../../../../store/BookSlice";
 import { useSearchParams } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 3;
 
 const BookCardList: React.FC = () => {
   const dispatch = useAppDispatch();
-  const currentPage = useAppSelector(
-    (state) => state.books.bookList.currentPage
-  );
-  const bookList = useAppSelector((state) => state.books.bookList.slicedCards);
-  const numberOfPages = useAppSelector(
-    (state) => state.books.bookList.numberOfPages
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const bookList = useAppSelector((state) => state.books.bookList);
+  const numberOfPages = useAppSelector((state) => state.books.numberOfPages);
 
-  const [par, setPar] = useSearchParams();
+  const PageNumFromSearchParams = Number(searchParams.get("page"));
+  const initialCurrentPageState =
+    PageNumFromSearchParams < 1 || isNaN(PageNumFromSearchParams)
+      ? 1
+      : PageNumFromSearchParams;
+
+  const [currentPage, setCurrentPage] = useState(initialCurrentPageState);
 
   const handleNextPage = () => {
-    dispatch(incrementCurrentPage());
+    setCurrentPage(currentPage + 1);
   };
 
   const handlePrevPage = () => {
-    dispatch(decrementCurrentPage());
+    setCurrentPage(currentPage - 1);
   };
 
   const handlePageSelectClick = (n: number) => {
-    dispatch(setCurrentPage(n));
+    setCurrentPage(n);
   };
 
   useEffect(() => {
-    console.log(">>>page >>>>", par.get("page"));
-
-    dispatch(fetchBooks({ itemsPerPage: ITEMS_PER_PAGE, currentPage }));
-  }, [dispatch, currentPage]);
+    setSearchParams({
+      page: currentPage.toString(),
+    });
+    dispatch(
+      fetchBooks({
+        itemsPerPage: ITEMS_PER_PAGE,
+        currentPage,
+        selectedGenres: searchParams.get("genres"),
+      })
+    );
+  }, [currentPage, dispatch]);
 
   return (
     <>
@@ -87,10 +92,8 @@ const StyledPagination = styled.div`
   display: flex;
   align-items: center;
   gap: 50px;
-
   .page-button-container {
     display: flex;
-
     gap: 30px;
   }
 `;

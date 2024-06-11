@@ -3,7 +3,7 @@ import api from "./api";
 import { BookType } from "../../types";
 
 type GetBooksResponseType = {
-  slicedCards: BookType[];
+  books: BookType[];
   numberOfPages: number;
   currentPage: number;
 };
@@ -25,13 +25,14 @@ export const getBookById = async (bookId: number): Promise<BookType> => {
 
 export const getBooks = async (
   itemsPerPage: number,
-  currentPage: number
+  currentPage: number,
+  selectedGenres: any
 ): Promise<GetBooksResponseType> => {
   try {
     const response: AxiosResponse<GetBooksResponseType> = await api.get(
-      `${pathPrefix}/all?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}`
+      `${pathPrefix}/all?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&selectedGenres=${selectedGenres}`
     );
-    console.log("response.data", response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching books data: ", error);
