@@ -5,11 +5,13 @@ import { fetchBooks } from "./BookThunk";
 type BookSliceType = {
   bookList: BookType[];
   numberOfPages: number;
+  genreIdsArr: number[];
 };
 
 const initialState: BookSliceType = {
   bookList: [],
   numberOfPages: 1,
+  genreIdsArr: [],
 };
 
 const BookSlice = createSlice({
@@ -20,6 +22,7 @@ const BookSlice = createSlice({
     builder.addCase(fetchBooks.fulfilled, (state, action) => {
       state.bookList = action.payload.books;
       state.numberOfPages = action.payload.numberOfPages;
+      state.genreIdsArr = action.payload.genreIdsArr;
     });
     builder.addCase(fetchBooks.pending, (state, action) => {
       //
@@ -27,6 +30,7 @@ const BookSlice = createSlice({
     builder.addCase(fetchBooks.rejected, (state, action) => {
       state.bookList = [];
       state.numberOfPages = 1;
+      state.genreIdsArr = [];
     });
   },
 });

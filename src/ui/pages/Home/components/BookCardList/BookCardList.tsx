@@ -8,16 +8,22 @@ import ArrowButton from "../ArrowButton/ArrowButton";
 import PageSelectButton from "../PageSelectButton/PageSelectButton";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
+import { selectGenre } from "../../../../../store/GenreSlice";
 
 const ITEMS_PER_PAGE = 3;
 
 const BookCardList: React.FC = () => {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
+  const selectedGenres = useAppSelector((state) => state.genres.selectedGenres);
   const bookList = useAppSelector((state) => state.books.bookList);
+  const genreIdsArr = useAppSelector((state) => state.books.genreIdsArr);
   const numberOfPages = useAppSelector((state) => state.books.numberOfPages);
 
   const PageNumFromSearchParams = Number(searchParams.get("page"));
+
+  const genresFromSearch = searchParams.get("genres");
+
   const initialCurrentPageState =
     PageNumFromSearchParams < 1 || isNaN(PageNumFromSearchParams)
       ? 1
@@ -38,17 +44,50 @@ const BookCardList: React.FC = () => {
   };
 
   useEffect(() => {
-    setSearchParams({
-      page: currentPage.toString(),
-    });
+    console.log("genresFromSearch", genresFromSearch);
+
     dispatch(
       fetchBooks({
         itemsPerPage: ITEMS_PER_PAGE,
         currentPage,
-        selectedGenres: searchParams.get("genres"),
+        selectedGenres:
+          (genresFromSearch !== null &&
+            genresFromSearch.split(",").map((i) => Number(i))) ||
+          [],
       })
     );
-  }, [currentPage, dispatch]);
+  }, []);
+
+  // useEffect(() => {
+  //   setSearchParams({
+  //     page: currentPage.toString(),
+  //     genres: genreIdsArr.join(","),
+  //   });
+  //   dispatch(selectGenre(genreIdsArr));
+  //   dispatch(
+  //     fetchBooks({
+  //       itemsPerPage: ITEMS_PER_PAGE,
+  //       currentPage,
+  //       selectedGenres: ggg?.split(",").map((i) => Number(i)) || [],
+  //     })
+  //   );
+  // }, [currentPage, genreIdsArr]);
+
+  useEffect(() => {
+    console.log("genreIdsArr >>", genreIdsArr);
+    setSearchParams({
+      page: currentPage.toString(),
+      genres: selectedGenres.join(","),
+    });
+    // dispatch(selectGenre(selectedGenres));
+    dispatch(
+      fetchBooks({
+        itemsPerPage: ITEMS_PER_PAGE,
+        currentPage,
+        selectedGenres,
+      })
+    );
+  }, [currentPage, selectedGenres]);
 
   return (
     <>

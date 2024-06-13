@@ -6,6 +6,7 @@ type GetBooksResponseType = {
   books: BookType[];
   numberOfPages: number;
   currentPage: number;
+  genreIdsArr: number[];
 };
 
 const pathPrefix = "book";
@@ -26,13 +27,14 @@ export const getBookById = async (bookId: number): Promise<BookType> => {
 export const getBooks = async (
   itemsPerPage: number,
   currentPage: number,
-  selectedGenres: any
+  selectedGenres: number[]
 ): Promise<GetBooksResponseType> => {
   try {
     const response: AxiosResponse<GetBooksResponseType> = await api.get(
       `${pathPrefix}/all?itemsPerPage=${itemsPerPage}&currentPage=${currentPage}&selectedGenres=${selectedGenres}`
     );
 
+    console.log("response.data@@@@@@", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching books data: ", error);

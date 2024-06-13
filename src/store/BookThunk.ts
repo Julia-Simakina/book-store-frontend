@@ -4,7 +4,7 @@ import { getBooks } from "../api/http/bookApi";
 type fetchBooksPropsType = {
   itemsPerPage: number;
   currentPage: number;
-  selectedGenres: any;
+  selectedGenres: number[];
 };
 
 export const fetchBooks = createAsyncThunk(

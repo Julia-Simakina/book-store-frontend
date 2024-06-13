@@ -8,12 +8,10 @@ type GetGenressResponseType = {
 
 const pathPrefix = "genre";
 
-export const getAllGenres = async (
-  selectedGenres: any
-): Promise<GetGenressResponseType> => {
+export const getAllGenres = async (): Promise<GetGenressResponseType> => {
   try {
     const response: AxiosResponse<GetGenressResponseType> = await api.get(
-      `${pathPrefix}/all?genres=${selectedGenres}`
+      `${pathPrefix}/all`
     );
 
     return response.data;

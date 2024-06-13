@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Dropdown from "../Dropdown/Dropdown";
 import RangeSlider from "../../../../components/RangeSlider";
@@ -12,32 +12,36 @@ const Catalog: React.FC = () => {
   const dispatch = useAppDispatch();
   const genres = useAppSelector((state) => state.genres.genreList);
   const selectedGenres = useAppSelector((state) => state.genres.selectedGenres);
-  // const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const genreIdsArr = useAppSelector((state) => state.books.genreIdsArr);
+
+  useEffect(() => {
+    dispatch(fetchGenres());
+  }, []);
 
   // useEffect(() => {
-  //   dispatch(fetchGenres());
-  // }, []);
+  //   setSearchParams({
+  //     page: searchParams.get("page") || "1",
+  //     genres: searchParams.get("genres") || selectedGenres?.join(","),
+  //   });
 
-  useEffect(() => {
-    searchParams.set("genres", selectedGenres.join(","));
-    dispatch(fetchGenres({ selectedGenres: searchParams.get("genres") } || ""));
-  }, [selectedGenres]);
-
-  useEffect(() => {
-    setSearchParams({
-      page: searchParams.get("page") || "1",
-      genres: searchParams.get("genres") || "",
-    });
-  }, [selectedGenres]);
+  //   // if (searchParams.get("genres") !== null) {
+  //   //   dispatch(
+  //   //     selectGenre(
+  //   //       searchParams
+  //   //         .get("genres")
+  //   //         .split(",")
+  //   //         .map((i) => Number(i))
+  //   //     )
+  //   //   );
+  //   // }
+  // }, [searchParams]);
 
   const handleGenreChange = (id: number) => {
     if (selectedGenres.includes(id)) {
       dispatch(selectGenre(selectedGenres.filter((genreId) => genreId !== id)));
-      // setSelectedGenres(selectedGenres.filter((genreId) => genreId !== id));
     } else {
       dispatch(selectGenre([...selectedGenres, id]));
-      // setSelectedGenres([...selectedGenres, id]);
     }
   };
 

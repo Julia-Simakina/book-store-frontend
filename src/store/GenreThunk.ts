@@ -5,9 +5,6 @@ type fetchGenresPropsType = {
   selectedGenres: string | null;
 };
 
-export const fetchGenres = createAsyncThunk(
-  "genres/fetchGenres",
-  async (props: fetchGenresPropsType) => {
-    return getAllGenres(props.selectedGenres);
-  }
-);
+export const fetchGenres = createAsyncThunk("genres/fetchGenres", async () => {
+  return getAllGenres();
+});
